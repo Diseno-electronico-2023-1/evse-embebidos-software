@@ -314,7 +314,6 @@
         "config_cpu_variant_standard": null,
         "config_cpu_human_name": "vexriscv",
         "config_cpu_nop": "nop",
-        "config_with_build_time": null,
         "config_l2_size": 8192,
         "spiflash_phy_frequency": 100000000,
         "spiflash_module_name": "gd25q16",
