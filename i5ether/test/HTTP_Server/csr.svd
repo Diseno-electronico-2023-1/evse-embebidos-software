@@ -3,7 +3,7 @@
 <device schemaVersion="1.1" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="CMSIS-SVD.xsd" >
     <vendor>litex</vendor>
     <name>SOC</name>
-    <description><![CDATA[Litex SoC 2023-05-08 10:11:08]]></description>
+    <description><![CDATA[Litex SoC 2023-05-13 14:56:47]]></description>
 
     <addressUnitBits>8</addressUnitBits>
     <width>32</width>
@@ -14,143 +14,8 @@
 
     <peripherals>
         <peripheral>
-            <name>SPI1</name>
-            <baseAddress>0xF0000000</baseAddress>
-            <groupName>SPI1</groupName>
-            <registers>
-                <register>
-                    <name>CONTROL</name>
-                    <description><![CDATA[SPI Control.]]></description>
-                    <addressOffset>0x0000</addressOffset>
-                    <resetValue>0x00</resetValue>
-                    <size>32</size>
-                    <fields>
-                        <field>
-                            <name>start</name>
-                            <msb>0</msb>
-                            <bitRange>[0:0]</bitRange>
-                            <lsb>0</lsb>
-                            <description><![CDATA[SPI Xfer Start (Write ``1`` to start Xfer).]]></description>
-                        </field>
-                        <field>
-                            <name>length</name>
-                            <msb>15</msb>
-                            <bitRange>[15:8]</bitRange>
-                            <lsb>8</lsb>
-                            <description><![CDATA[SPI Xfer Length (in bits).]]></description>
-                        </field>
-                    </fields>
-                </register>
-                <register>
-                    <name>STATUS</name>
-                    <description><![CDATA[SPI Status.]]></description>
-                    <addressOffset>0x0004</addressOffset>
-                    <resetValue>0x00</resetValue>
-                    <size>32</size>
-                    <fields>
-                        <field>
-                            <name>done</name>
-                            <msb>0</msb>
-                            <bitRange>[0:0]</bitRange>
-                            <lsb>0</lsb>
-                            <description><![CDATA[SPI Xfer Done (when read as ``1``).]]></description>
-                        </field>
-                    </fields>
-                </register>
-                <register>
-                    <name>MOSI</name>
-                    <description><![CDATA[SPI MOSI data (MSB-first serialization).]]></description>
-                    <addressOffset>0x0008</addressOffset>
-                    <resetValue>0x00</resetValue>
-                    <size>32</size>
-                    <fields>
-                        <field>
-                            <name>mosi</name>
-                            <msb>7</msb>
-                            <bitRange>[7:0]</bitRange>
-                            <lsb>0</lsb>
-                        </field>
-                    </fields>
-                </register>
-                <register>
-                    <name>MISO</name>
-                    <description><![CDATA[SPI MISO data (MSB-first de-serialization).]]></description>
-                    <addressOffset>0x000c</addressOffset>
-                    <resetValue>0x00</resetValue>
-                    <size>32</size>
-                    <fields>
-                        <field>
-                            <name>miso</name>
-                            <msb>7</msb>
-                            <bitRange>[7:0]</bitRange>
-                            <lsb>0</lsb>
-                        </field>
-                    </fields>
-                </register>
-                <register>
-                    <name>CS</name>
-                    <description><![CDATA[SPI CS Chip-Select and Mode.]]></description>
-                    <addressOffset>0x0010</addressOffset>
-                    <resetValue>0x01</resetValue>
-                    <size>32</size>
-                    <fields>
-                        <field>
-                            <name>sel</name>
-                            <msb>0</msb>
-                            <bitRange>[0:0]</bitRange>
-                            <lsb>0</lsb>
-                            <description><![CDATA[None]]></description>
-                        </field>
-                        <field>
-                            <name>mode</name>
-                            <msb>16</msb>
-                            <bitRange>[16:16]</bitRange>
-                            <lsb>16</lsb>
-                            <description><![CDATA[None]]></description>
-                        </field>
-                    </fields>
-                </register>
-                <register>
-                    <name>LOOPBACK</name>
-                    <description><![CDATA[SPI Loopback Mode.]]></description>
-                    <addressOffset>0x0014</addressOffset>
-                    <resetValue>0x00</resetValue>
-                    <size>32</size>
-                    <fields>
-                        <field>
-                            <name>mode</name>
-                            <msb>0</msb>
-                            <bitRange>[0:0]</bitRange>
-                            <lsb>0</lsb>
-                            <description><![CDATA[None]]></description>
-                        </field>
-                    </fields>
-                </register>
-                <register>
-                    <name>CLK_DIVIDER</name>
-                    <description><![CDATA[SPI Clk Divider.]]></description>
-                    <addressOffset>0x0018</addressOffset>
-                    <resetValue>0x0d</resetValue>
-                    <size>32</size>
-                    <fields>
-                        <field>
-                            <name>clk_divider</name>
-                            <msb>15</msb>
-                            <bitRange>[15:0]</bitRange>
-                            <lsb>0</lsb>
-                        </field>
-                    </fields>
-                </register>
-            </registers>
-            <addressBlock>
-                <offset>0</offset>
-                <size>0x1c</size>
-                <usage>registers</usage>
-            </addressBlock>
-        </peripheral>
-        <peripheral>
             <name>LEDS</name>
-            <baseAddress>0xF0000800</baseAddress>
+            <baseAddress>0xF0000000</baseAddress>
             <groupName>LEDS</groupName>
             <registers>
                 <register>
@@ -177,7 +42,7 @@
         </peripheral>
         <peripheral>
             <name>CTRL</name>
-            <baseAddress>0xF0001000</baseAddress>
+            <baseAddress>0xF0000800</baseAddress>
             <groupName>CTRL</groupName>
             <registers>
                 <register>
@@ -243,7 +108,7 @@ to the Wishbone/CSR bus are working correctly. The initial reset value of
         </peripheral>
         <peripheral>
             <name>ETHMAC</name>
-            <baseAddress>0xF0001800</baseAddress>
+            <baseAddress>0xF0001000</baseAddress>
             <groupName>ETHMAC</groupName>
             <registers>
                 <register>
@@ -517,7 +382,7 @@ register to disable individual events.]]></description>
         </peripheral>
         <peripheral>
             <name>ETHPHY</name>
-            <baseAddress>0xF0002000</baseAddress>
+            <baseAddress>0xF0001800</baseAddress>
             <groupName>ETHPHY</groupName>
             <registers>
                 <register>
@@ -615,64 +480,8 @@ register to disable individual events.]]></description>
             </addressBlock>
         </peripheral>
         <peripheral>
-            <name>I2C0</name>
-            <baseAddress>0xF0002800</baseAddress>
-            <groupName>I2C0</groupName>
-            <registers>
-                <register>
-                    <name>W</name>
-                    <addressOffset>0x0000</addressOffset>
-                    <resetValue>0x05</resetValue>
-                    <size>32</size>
-                    <fields>
-                        <field>
-                            <name>scl</name>
-                            <msb>0</msb>
-                            <bitRange>[0:0]</bitRange>
-                            <lsb>0</lsb>
-                            <description><![CDATA[None]]></description>
-                        </field>
-                        <field>
-                            <name>oe</name>
-                            <msb>1</msb>
-                            <bitRange>[1:1]</bitRange>
-                            <lsb>1</lsb>
-                            <description><![CDATA[None]]></description>
-                        </field>
-                        <field>
-                            <name>sda</name>
-                            <msb>2</msb>
-                            <bitRange>[2:2]</bitRange>
-                            <lsb>2</lsb>
-                            <description><![CDATA[None]]></description>
-                        </field>
-                    </fields>
-                </register>
-                <register>
-                    <name>R</name>
-                    <addressOffset>0x0004</addressOffset>
-                    <resetValue>0x00</resetValue>
-                    <size>32</size>
-                    <fields>
-                        <field>
-                            <name>sda</name>
-                            <msb>0</msb>
-                            <bitRange>[0:0]</bitRange>
-                            <lsb>0</lsb>
-                            <description><![CDATA[None]]></description>
-                        </field>
-                    </fields>
-                </register>
-            </registers>
-            <addressBlock>
-                <offset>0</offset>
-                <size>0x8</size>
-                <usage>registers</usage>
-            </addressBlock>
-        </peripheral>
-        <peripheral>
             <name>IDENTIFIER_MEM</name>
-            <baseAddress>0xF0003000</baseAddress>
+            <baseAddress>0xF0002000</baseAddress>
             <groupName>IDENTIFIER_MEM</groupName>
             <registers>
                 <register>
@@ -699,7 +508,7 @@ register to disable individual events.]]></description>
         </peripheral>
         <peripheral>
             <name>SDRAM</name>
-            <baseAddress>0xF0003800</baseAddress>
+            <baseAddress>0xF0002800</baseAddress>
             <groupName>SDRAM</groupName>
             <registers>
                 <register>
@@ -873,7 +682,7 @@ register to disable individual events.]]></description>
         </peripheral>
         <peripheral>
             <name>TIMER0</name>
-            <baseAddress>0xF0004000</baseAddress>
+            <baseAddress>0xF0003000</baseAddress>
             <groupName>TIMER0</groupName>
             <registers>
                 <register>
@@ -1065,7 +874,7 @@ register to disable individual events.]]></description>
         </peripheral>
         <peripheral>
             <name>UART</name>
-            <baseAddress>0xF0004800</baseAddress>
+            <baseAddress>0xF0003800</baseAddress>
             <groupName>UART</groupName>
             <registers>
                 <register>
@@ -1231,7 +1040,7 @@ register to disable individual events.]]></description>
             <memoryRegion>
                 <name>ROM</name>
                 <baseAddress>0x00000000</baseAddress>
-                <size>0x00009000</size>
+                <size>0x0000A000</size>
             </memoryRegion>
             <memoryRegion>
                 <name>SRAM</name>
@@ -1264,7 +1073,6 @@ register to disable individual events.]]></description>
             <constant name="CONFIG_CPU_VARIANT_STANDARD" value="None" />
             <constant name="CONFIG_CPU_HUMAN_NAME" value="VexRiscv" />
             <constant name="CONFIG_CPU_NOP" value="nop" />
-            <constant name="CONFIG_WITH_BUILD_TIME" value="None" />
             <constant name="CONFIG_L2_SIZE" value="8192" />
             <constant name="CONFIG_CSR_DATA_WIDTH" value="32" />
             <constant name="CONFIG_CSR_ALIGNMENT" value="32" />
@@ -1278,7 +1086,6 @@ register to disable individual events.]]></description>
             <constant name="ETHMAC_INTERRUPT" value="2" />
             <constant name="TIMER0_INTERRUPT" value="1" />
             <constant name="UART_INTERRUPT" value="0" />
-            <constant name="CONFIG_HAS_I2C" value="None" />
         </constants>
     </vendorExtensions>
 </device>

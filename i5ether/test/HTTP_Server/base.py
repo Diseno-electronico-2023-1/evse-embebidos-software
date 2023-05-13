@@ -32,25 +32,7 @@ _leds = [
     ("user_led", 0, Pins("U16"), IOStandard("LVCMOS33")),  # LED en la placa
     ("user_led", 1, Pins("F3"), IOStandard("LVCMOS33")),  # LED externo
 ]
-
-_i2c = [("i2c", 0,
-            Subsignal("sda",   Pins("C17")),
-            Subsignal("scl",   Pins("B18")),
-            IOStandard("LVCMOS33"),
-        )
-]
-
-
-_spi = [("spi", 0,
-                Subsignal("cs_n", Pins("D1")), 
-                Subsignal("clk",  Pins("C1")), 
-                Subsignal("mosi", Pins("C2")), 
-                Subsignal("miso", Pins("E3")),
-                IOStandard("LVCMOS33"),
-        ) 
-]
-
-        
+     
 _eth = [ ("eth_clocks", 0,
         Subsignal("tx", Pins("G1")),
         Subsignal("rx", Pins("H2")),
@@ -103,8 +85,6 @@ class BaseSoC(SoCCore):
         sys_clk_freq = int(100e6)
         platform.add_extension(_serial)
         platform.add_extension(_leds)
-        platform.add_extension(_i2c)
-        platform.add_extension(_spi)
         platform.add_extension(_eth)
         # SoC with CPU
         SoCCore.__init__(
@@ -112,7 +92,7 @@ class BaseSoC(SoCCore):
             cpu_type                 = "vexriscv",
             clk_freq                 = sys_clk_freq,
             ident                    = "LiteX CPU cain_test", ident_version=True,
-            integrated_rom_size      = 0x9000,
+            integrated_rom_size      = 0xa000,
             timer_uptime             = True)
         self.submodules.crg = _CRG(
             platform         = platform, 
@@ -135,14 +115,6 @@ class BaseSoC(SoCCore):
           pads       = self.platform.request("eth", 0),
           tx_delay = 0)
         self.add_ethernet(phy=self.ethphy)
-        #i2c----------------------------------------------------------------------------------
-        self.i2c0 = I2CMaster(pads=platform.request("i2c"))
-        # SPI --------------------------------------------------------------------------------
-        spi_pads = self.platform.request("spi", 0)
-        self.submodules.spi1 = SPIMaster(spi_pads, 8, self.sys_clk_freq, 8e6)
-        self.spi1.add_clk_divider()
-        self.add_csr("spi1")
-        
         # Led
         user_leds = Cat(*[platform.request("user_led", i) for i in range(1)])
         self.submodules.leds = Led(user_leds)

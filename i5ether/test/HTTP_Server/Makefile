@@ -2,12 +2,11 @@ TARGET       = colorlight_i5
 TOP          = cain_test
 GATE_DIR     = build/gateware
 SOFT_DIR     = build/software
-LITEX_DIR    = /home/nimunozb/Documentos/embebidos/programs/litex/
+LITEX_DIR    = /home/nimunozb/Documentos/embebidos/programs/litex
 #RTL_CPU_DIR = ${LITEX_DIR}/pythondata-cpu-vexriscv/pythondata_cpu_vexriscv/verilog
 RTL_CPU_DIR  = ${LITEX_DIR}/pythondata-cpu-lm32/pythondata_cpu_lm32/verilog/rtl/
 ZEPHYR_DIR   = ~/zephyrproject/
-LITEX_DIR    = /home/nimunozb/Documentos/embebidos/programs/litex/
-WORK_DIR     = /home/nimunozb/Documentos/embebidos/repositorios/evse-embebidos-software/i5ether/test/HTTP_server
+WORK_DIR     = /home/nimunozb/Documentos/embebidos/repositorios/evse-embebidos-software/i5ether/test/HTTP_server/
 SERIAL       = /dev/ttyACM0
 
 SERIAL?=/dev/ttyUSB0
@@ -23,7 +22,7 @@ firmware: ${SOFT_DIR}/common.mak
 overlay: gateware
 	${LITEX_DIR}/litex/litex/tools/litex_json2dts_zephyr.py --dts overlay.dts --config overlay.config csr.json
 app_zephyr: 
-	west build --pristine -b litex_vexriscv ${ZEPHYR_DIR}zephyr/samples/net/sockets/dumb_http_server  -DDTC_OVERLAY_FILE=${WORK_DIR}overlay.dts	
+	west build -b litex_vexriscv ${ZEPHYR_DIR}zephyr/samples/net/sockets/dumb_http_server  -DDTC_OVERLAY_FILE=${WORK_DIR}overlay.dts	
 
 configure: app_zephyr
 	sudo openFPGALoader -b colorlight-i5 -m ${GATE_DIR}/${TARGET}.bit 
