@@ -22,9 +22,9 @@ firmware: ${SOFT_DIR}/common.mak
 overlay: gateware
 	${LITEX_DIR}/litex/litex/tools/litex_json2dts_zephyr.py --dts overlay.dts --config overlay.config csr.json
 app_zephyr: 
-	west build -b litex_vexriscv ${ZEPHYR_DIR}zephyr/samples/net/sockets/dumb_http_server  -DDTC_OVERLAY_FILE=${WORK_DIR}overlay.dts	
+	west build --pristine -b litex_vexriscv ${ZEPHYR_DIR}zephyr/samples/net/eth_native_posix  -DDTC_OVERLAY_FILE=${WORK_DIR}overlay.dts	
 
-configure: app_zephyr
+configure:
 	sudo openFPGALoader -b colorlight-i5 -m ${GATE_DIR}/${TARGET}.bit 
 
 load_zephyr_app: configure

@@ -2,12 +2,12 @@ TARGET       = colorlight_i5
 TOP          = cain_test
 GATE_DIR     = build/gateware
 SOFT_DIR     = build/software
-LITEX_DIR    = /home/leonardodtr/litex
+LITEX_DIR    = /home/nimunozb/Documentos/embebidos/programs/litex
+#RTL_CPU_DIR = ${LITEX_DIR}/pythondata-cpu-vexriscv/pythondata_cpu_vexriscv/verilog
 RTL_CPU_DIR  = ${LITEX_DIR}/pythondata-cpu-lm32/pythondata_cpu_lm32/verilog/rtl/
-ZEPHYR_DIR   = /home/leonardodtr/zephyrproject/
-WORK_DIR     = /home/leonardodtr/Embebidos/Pruebas/evse-embebidos-software/i5ether/test/SPI_SDRAM_I5_Litex_Zephyr/
+ZEPHYR_DIR   = ~/zephyrproject/
+WORK_DIR     = /home/nimunozb/Documentos/embebidos/repositorios/evse-embebidos-software/i5ether/test/HTTP_server/
 SERIAL       = /dev/ttyACM0
-
 
 SERIAL?=/dev/ttyUSB0
 
@@ -19,18 +19,18 @@ gateware:
 firmware: ${SOFT_DIR}/common.mak
 	$(MAKE) -C firmware/ -f Makefile all
 
-overlay:
+overlay: gateware
 	${LITEX_DIR}/litex/litex/tools/litex_json2dts_zephyr.py --dts overlay.dts --config overlay.config csr.json
 app_zephyr: 
-	west build -b litex_vexriscv ${ZEPHYR_DIR}/zephyr/samples/net/eth_native_posix  -DDTC_OVERLAY_FILE=${WORK_DIR}overlay.dts	
+	west build --pristine -b litex_vexriscv ${ZEPHYR_DIR}zephyr/samples/net/eth_native_posix  -DDTC_OVERLAY_FILE=${WORK_DIR}overlay.dts	
 
 configure:
 	sudo openFPGALoader -b colorlight-i5 -m ${GATE_DIR}/${TARGET}.bit 
 
-load_zephyr_app:
+load_zephyr_app: configure
 	litex_term ${SERIAL} --kernel ${WORK_DIR}/build/zephyr/zephyr.bin
 	
-litex_term:
+litex_term: firmware
 	litex_term ${SERIAL} --kernel firmware/firmware.bin
 
 ${TARGET}.svg: 

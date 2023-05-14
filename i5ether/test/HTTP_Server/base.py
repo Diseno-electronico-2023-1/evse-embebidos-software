@@ -32,6 +32,22 @@ _leds = [
     ("user_led", 0, Pins("U16"), IOStandard("LVCMOS33")),  # LED en la placa
     ("user_led", 1, Pins("F3"), IOStandard("LVCMOS33")),  # LED externo
 ]
+
+_i2c = [("i2c", 0,
+            Subsignal("sda",   Pins("C17")),
+            Subsignal("scl",   Pins("B18")),
+            IOStandard("LVCMOS33"),
+        )
+]
+
+
+_spi = [("spi", 0,
+                Subsignal("cs_n", Pins("D1")), 
+                Subsignal("clk",  Pins("C1")), 
+                Subsignal("mosi", Pins("C2")), 
+                Subsignal("miso", Pins("E3")),
+                IOStandard("LVCMOS33"),
+        ) ]
      
 _eth = [ ("eth_clocks", 0,
         Subsignal("tx", Pins("G1")),
@@ -86,6 +102,8 @@ class BaseSoC(SoCCore):
         platform.add_extension(_serial)
         platform.add_extension(_leds)
         platform.add_extension(_eth)
+        platform.add_extension(_i2c)
+        platform.add_extension(_spi)        
         # SoC with CPU
         SoCCore.__init__(
             self, platform,
@@ -115,6 +133,14 @@ class BaseSoC(SoCCore):
           pads       = self.platform.request("eth", 0),
           tx_delay = 0)
         self.add_ethernet(phy=self.ethphy)
+        #i2C--------------------------------------------------------------------------------
+        self.i2c0 = I2CMaster(pads=platform.request("i2c"))
+        # SPI --------------------------------------------------------------------------------
+        spi_pads = self.platform.request("spi", 0)
+        self.submodules.spi1 = SPIMaster(spi_pads, 8, self.sys_clk_freq, 8e6)
+        self.spi1.add_clk_divider()
+        self.add_csr("spi1")
+
         # Led
         user_leds = Cat(*[platform.request("user_led", i) for i in range(1)])
         self.submodules.leds = Led(user_leds)
@@ -126,12 +152,6 @@ builder = Builder(soc, output_dir="build", csr_csv="csr.csv", csr_svd="csr.svd",
 builder.build()
 
 #https://github.com/litex-hub/litespi/issues/52
-
-
-
-
-
-
 
 
 
