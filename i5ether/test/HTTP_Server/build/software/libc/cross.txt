@@ -1,0 +1,16 @@
+[binaries]
+c     = 'riscv32-unknown-elf-gcc'
+ar    = 'riscv32-unknown-elf-gcc-ar'
+as    = 'riscv32-unknown-elf-as'
+nm    = 'riscv32-unknown-elf-gcc-nm'
+strip = 'riscv32-unknown-elf-strip'
+
+[host_machine]
+system     = 'unknown'
+cpu_family = 'riscv'
+cpu        = 'vexriscv'
+endian     = 'little'
+
+[built-in options]
+c_args      = [ '-Os', '-march=rv32i2p0_m', '-mabi=ilp32', '-D__vexriscv__', '-g3', '-no-pie', '-fomit-frame-pointer', '-Wall', '-fno-builtin', '-fno-stack-protector', '-I/home/nimunozb/Documentos/embebidos/programs/litex/pythondata-software-picolibc/pythondata_software_picolibc/data/newlib/libc/tinystdio', '-I/home/nimunozb/Documentos/embebidos/programs/litex/pythondata-software-picolibc/pythondata_software_picolibc/data/newlib/libc/include', '-I/home/nimunozb/Documentos/embebidos/programs/litex/litex/litex/soc/software/libbase', '-I/home/nimunozb/Documentos/embebidos/programs/litex/litex/litex/soc/software/include', '-I/home/nimunozb/Documentos/embebidos/programs/litex/litex/litex/soc/software', '-I/home/nimunozb/Documentos/embebidos/repositorios/evse-embebidos-software/i5ether/test/HTTP_Server/build/software/include', '-I/home/nimunozb/Documentos/embebidos/repositorios/evse-embebidos-software/i5ether/test/HTTP_Server/build/software/include/../libc', '-I/home/nimunozb/Documentos/embebidos/programs/litex/litex/litex/soc/cores/cpu/vexriscv', '-fexceptions', '-Wpragmas', ]
+c_link_args = [ '-nostdlib', '-nodefaultlibs', '-Wl,--no-dynamic-linker', '-Wl,--build-id=none', '-MD', '-MP', '-Os', '-march=rv32i2p0_m', '-mabi=ilp32', '-D__vexriscv__', '-g3', '-no-pie', '-fomit-frame-pointer', '-Wall', '-fno-builtin', '-fno-stack-protector', '-I/home/nimunozb/Documentos/embebidos/programs/litex/pythondata-software-picolibc/pythondata_software_picolibc/data/newlib/libc/tinystdio', '-I/home/nimunozb/Documentos/embebidos/programs/litex/pythondata-software-picolibc/pythondata_software_picolibc/data/newlib/libc/include', '-I/home/nimunozb/Documentos/embebidos/programs/litex/litex/litex/soc/software/libbase', '-I/home/nimunozb/Documentos/embebidos/programs/litex/litex/litex/soc/software/include', '-I/home/nimunozb/Documentos/embebidos/programs/litex/litex/litex/soc/software', '-I/home/nimunozb/Documentos/embebidos/repositorios/evse-embebidos-software/i5ether/test/HTTP_Server/build/software/include', '-I/home/nimunozb/Documentos/embebidos/repositorios/evse-embebidos-software/i5ether/test/HTTP_Server/build/software/include/../libc', '-I/home/nimunozb/Documentos/embebidos/programs/litex/litex/litex/soc/cores/cpu/vexriscv', '-fexceptions', '-Wpragmas', '-L/home/nimunozb/Documentos/embebidos/repositorios/evse-embebidos-software/i5ether/test/HTTP_Server/build/software/include', ]
