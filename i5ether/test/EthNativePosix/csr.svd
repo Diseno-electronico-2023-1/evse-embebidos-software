@@ -3,7 +3,7 @@
 <device schemaVersion="1.1" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="CMSIS-SVD.xsd" >
     <vendor>litex</vendor>
     <name>SOC</name>
-    <description><![CDATA[Litex SoC 2023-05-14 10:57:21]]></description>
+    <description><![CDATA[Litex SoC 2023-05-31 13:24:22]]></description>
 
     <addressUnitBits>8</addressUnitBits>
     <width>32</width>
@@ -541,83 +541,10 @@ register to disable individual events.]]></description>
                         </field>
                     </fields>
                 </register>
-                <register>
-                    <name>RX_INBAND_STATUS</name>
-                    <addressOffset>0x0004</addressOffset>
-                    <resetValue>0x00</resetValue>
-                    <size>32</size>
-                    <fields>
-                        <field>
-                            <name>link_status</name>
-                            <msb>0</msb>
-                            <bitRange>[0:0]</bitRange>
-                            <lsb>0</lsb>
-                            <description><![CDATA[None]]></description>
-                        </field>
-                        <field>
-                            <name>clock_speed</name>
-                            <msb>1</msb>
-                            <bitRange>[1:1]</bitRange>
-                            <lsb>1</lsb>
-                            <description><![CDATA[None]]></description>
-                        </field>
-                        <field>
-                            <name>duplex_status</name>
-                            <msb>2</msb>
-                            <bitRange>[2:2]</bitRange>
-                            <lsb>2</lsb>
-                            <description><![CDATA[None]]></description>
-                        </field>
-                    </fields>
-                </register>
-                <register>
-                    <name>MDIO_W</name>
-                    <addressOffset>0x0008</addressOffset>
-                    <resetValue>0x00</resetValue>
-                    <size>32</size>
-                    <fields>
-                        <field>
-                            <name>mdc</name>
-                            <msb>0</msb>
-                            <bitRange>[0:0]</bitRange>
-                            <lsb>0</lsb>
-                            <description><![CDATA[None]]></description>
-                        </field>
-                        <field>
-                            <name>oe</name>
-                            <msb>1</msb>
-                            <bitRange>[1:1]</bitRange>
-                            <lsb>1</lsb>
-                            <description><![CDATA[None]]></description>
-                        </field>
-                        <field>
-                            <name>w</name>
-                            <msb>2</msb>
-                            <bitRange>[2:2]</bitRange>
-                            <lsb>2</lsb>
-                            <description><![CDATA[None]]></description>
-                        </field>
-                    </fields>
-                </register>
-                <register>
-                    <name>MDIO_R</name>
-                    <addressOffset>0x000c</addressOffset>
-                    <resetValue>0x00</resetValue>
-                    <size>32</size>
-                    <fields>
-                        <field>
-                            <name>r</name>
-                            <msb>0</msb>
-                            <bitRange>[0:0]</bitRange>
-                            <lsb>0</lsb>
-                            <description><![CDATA[None]]></description>
-                        </field>
-                    </fields>
-                </register>
             </registers>
             <addressBlock>
                 <offset>0</offset>
-                <size>0x10</size>
+                <size>0x4</size>
                 <usage>registers</usage>
             </addressBlock>
         </peripheral>
@@ -1238,7 +1165,7 @@ register to disable individual events.]]></description>
             <memoryRegion>
                 <name>ROM</name>
                 <baseAddress>0x00000000</baseAddress>
-                <size>0x0000A000</size>
+                <size>0x00009000</size>
             </memoryRegion>
             <memoryRegion>
                 <name>SRAM</name>

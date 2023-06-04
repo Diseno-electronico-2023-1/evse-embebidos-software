@@ -157,21 +157,6 @@
             "size": 1,
             "type": "rw"
         },
-        "ethphy_rx_inband_status": {
-            "addr": 4026540036,
-            "size": 1,
-            "type": "ro"
-        },
-        "ethphy_mdio_w": {
-            "addr": 4026540040,
-            "size": 1,
-            "type": "rw"
-        },
-        "ethphy_mdio_r": {
-            "addr": 4026540044,
-            "size": 1,
-            "type": "ro"
-        },
         "i2c0_w": {
             "addr": 4026542080,
             "size": 1,
@@ -336,7 +321,7 @@
     "memories": {
         "rom": {
             "base": 0,
-            "size": 40960,
+            "size": 36864,
             "type": "cached"
         },
         "sram": {

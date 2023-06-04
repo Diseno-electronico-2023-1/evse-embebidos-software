@@ -1,0 +1,1 @@
+west build -b native_posix ~/zephyrproject/zephyr/samples/net/eth_native_posix -- -DCONF_FILE=prj.conf -DDTC_OVERLAY_FILE=~/zephyrproject/demos/SPI_SDRAM_I5_Litex_Zephyr/overlay.dts 

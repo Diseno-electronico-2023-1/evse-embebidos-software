@@ -17,7 +17,7 @@ from litedram.phy import GENSDRPHY, HalfRateGENSDRPHY
 from litespi.modules import GD25Q16
 from litespi.opcodes import SpiNorFlashOpCodes as Codes
 from litex.soc.cores.spi import SPIMaster
-from liteeth.phy.ecp5rgmii import LiteEthPHYRGMII
+from liteeth.phy.rmii import LiteEthPHYRMII
 from litex.soc.cores.bitbang import I2CMaster
 from ios import Led
 # IOs ------------------------------------------------------------------------
@@ -47,26 +47,9 @@ _spi = [("spi", 0,
                 Subsignal("mosi", Pins("C2")), 
                 Subsignal("miso", Pins("E3")),
                 IOStandard("LVCMOS33"),
-        ) ]
-     
-_eth = [ ("eth_clocks", 0,
-        Subsignal("tx", Pins("G1")),
-        Subsignal("rx", Pins("H2")),
-        IOStandard("LVCMOS33")
-    ),
-    ("eth", 0,
-        Subsignal("rst_n",   Pins("P4")),
-        Subsignal("mdio",    Pins("P5")),
-        Subsignal("mdc",     Pins("N5")),
-        Subsignal("rx_ctl",  Pins("P2")),
-        Subsignal("rx_data", Pins("K2 L1 N1 P1")),
-        Subsignal("tx_ctl",  Pins("K1")),
-        Subsignal("tx_data", Pins("G2 H1 J1 J3")),
-        IOStandard("LVCMOS33")
-    )
-]        
-
-
+        ) 
+]
+        
 # BaseSoC -----------------------------------------------------------------------------------------
 class _CRG(Module):
     def __init__(self, platform, sys_clk_freq, use_internal_osc=False, with_usb_pll=False, with_rst=True, sdram_rate="1:1"):
@@ -101,16 +84,15 @@ class BaseSoC(SoCCore):
         sys_clk_freq = int(100e6)
         platform.add_extension(_serial)
         platform.add_extension(_leds)
-        platform.add_extension(_eth)
         platform.add_extension(_i2c)
-        platform.add_extension(_spi)        
+        platform.add_extension(_spi)
         # SoC with CPU
         SoCCore.__init__(
             self, platform,
             cpu_type                 = "vexriscv",
             clk_freq                 = sys_clk_freq,
             ident                    = "LiteX CPU cain_test", ident_version=True,
-            integrated_rom_size      = 0xa000,
+            integrated_rom_size      = 0x9000,
             timer_uptime             = True)
         self.submodules.crg = _CRG(
             platform         = platform, 
@@ -127,20 +109,20 @@ class BaseSoC(SoCCore):
             origin        = self.mem_map["main_ram"],
             l2_cache_size = 8192,
         )
-        #ethernet-----------------------------------------------------------------------------------
-        self.ethphy = LiteEthPHYRGMII(
-          clock_pads = self.platform.request("eth_clocks", 0),
-          pads       = self.platform.request("eth", 0),
-          tx_delay = 0)
+        #Ethernet--------------------------------------------------------------------------------------
+        self.ethphy = LiteEthPHYRMII(
+          clock_pads = self.platform.request("eth_clocks"),
+          pads       = self.platform.request("eth"),
+          refclk_cd  = None)
         self.add_ethernet(phy=self.ethphy)
-        #i2C--------------------------------------------------------------------------------
+        #i2c--------------------------------------------------------------------------------------------
         self.i2c0 = I2CMaster(pads=platform.request("i2c"))
         # SPI --------------------------------------------------------------------------------
         spi_pads = self.platform.request("spi", 0)
         self.submodules.spi1 = SPIMaster(spi_pads, 8, self.sys_clk_freq, 8e6)
         self.spi1.add_clk_divider()
         self.add_csr("spi1")
-
+        
         # Led
         user_leds = Cat(*[platform.request("user_led", i) for i in range(1)])
         self.submodules.leds = Led(user_leds)
@@ -152,6 +134,12 @@ builder = Builder(soc, output_dir="build", csr_csv="csr.csv", csr_svd="csr.svd",
 builder.build()
 
 #https://github.com/litex-hub/litespi/issues/52
+
+
+
+
+
+
 
 
 
