@@ -1,11 +1,11 @@
 TARGET       = colorlight_i5
-TOP          = ssd1306_p1
+TOP          = evse-embebidos
 GATE_DIR     = build/gateware
 SOFT_DIR     = build/software
 LITEX_DIR    = /home/leodtr/Programs/litex
 RTL_CPU_DIR  = ${LITEX_DIR}/pythondata-cpu-lm32/pythondata_cpu_lm32/verilog/rtl/
 ZEPHYR_DIR   = /home/leodtr/Programs/zephyrproject/
-WORK_DIR     = /home/leodtr/Embebidos/Software/ssd1306_p1/
+WORK_DIR     = /home/leodtr/Embebidos/evse-embebidos-software/
 SERIAL       = /dev/ttyACM0
 
 all: 
@@ -20,15 +20,8 @@ firmware: ${SOFT_DIR}/common.mak
 overlay: 
 	${LITEX_DIR}/litex/litex/tools/litex_json2dts_zephyr.py --dts overlay.dts --config overlay.config csr.json
 	
-app_zephyr:
-	west build -b litex_vexriscv ${WORK_DIR}lvgl/ -DSHIELD=ssd1306_128x64 -DDTC_OVERLAY_FILE=${WORK_DIR}overlay.dts
-	
-app_zephyrP1:
-	west build --pristine -b litex_vexriscv ${ZEPHYR_DIR}zephyr/tests/lib/gui/lvgl/ -DSHIELD=ssd1306_128x64 -DDTC_OVERLAY_FILE=${WORK_DIR}overlay.dts
-	
-app_zephyrP2:
-	west build --pristine -b litex_vexriscv ${ZEPHYR_DIR}zephyr/samples/subsys/display/lvgl1/ -DSHIELD=ssd1306_128x64 -DDTC_OVERLAY_FILE=${WORK_DIR}overlay.dts
-
+app_zephyr_pantalla:
+	west build -b litex_vexriscv ${WORK_DIR}pantalla/ -DSHIELD=ssd1306_128x64 -DDTC_OVERLAY_FILE=${WORK_DIR}overlay.dts
 	
 configure:
 	sudo openFPGALoader -b colorlight-i5 -m ${GATE_DIR}/${TARGET}.bit 
@@ -53,7 +46,7 @@ firmware-clean:
 	make -C firmware -f Makefile clean
 	
 zephyr-clean:
-	rm -rf build __pycache__ overlay.* csr.* *.json 
+	rm -rf build/zephyr build/CMakeFiles build/CMakeCache.txt 
 
 clean: firmware-clean gateware-clean
 
