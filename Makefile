@@ -28,6 +28,7 @@ configure:
 
 load_zephyr_app:
 	litex_term ${SERIAL} --kernel ${WORK_DIR}build/zephyr/zephyr.bin
+
 	
 litex_term: 
 	litex_term ${SERIAL} --kernel hello_world/hello_world.bin
