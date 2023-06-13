@@ -23,6 +23,9 @@ overlay:
 app_zephyr_pantalla:
 	west build -b litex_vexriscv ${WORK_DIR}pantalla/ -DSHIELD=ssd1306_128x64 -DDTC_OVERLAY_FILE=${WORK_DIR}overlay.dts
 	
+app_zephyr_btn:
+	west build -b litex_vexriscv ${ZEPHYR_DIR}samples/basic/button -DDTC_OVERLAY_FILE=${WORK_DIR}overlay.dts
+
 configure:
 	sudo openFPGALoader -b colorlight-i5 -m ${GATE_DIR}/${TARGET}.bit 
 

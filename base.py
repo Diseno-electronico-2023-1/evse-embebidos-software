@@ -15,6 +15,7 @@ from litex.soc.integration.builder import *
 from litedram.modules import M12L64322A # Compatible with EM638325-6H.
 from litedram.phy import GENSDRPHY, HalfRateGENSDRPHY
 from litespi.modules import GD25Q16
+from litex.soc.cores.gpio import GPIOTristate
 from litespi.opcodes import SpiNorFlashOpCodes as Codes
 from liteeth.phy.ecp5rgmii import LiteEthPHYRGMII
 from litex.soc.cores.bitbang import I2CMaster
@@ -38,6 +39,11 @@ _i2c = [("i2c", 0,
             Subsignal("scl",   Pins("N17")),
             IOStandard("LVCMOS33")
         )
+]
+
+_gpio =   [("gpio_in", 0, 
+                Pins("L18"), IOStandard("LVCMOS33")
+            )
 ]
         
 # BaseSoC -----------------------------------------------------------------------------------------
@@ -75,6 +81,7 @@ class BaseSoC(SoCCore):
         platform.add_extension(_serial)
         platform.add_extension(_leds)
         platform.add_extension(_i2c)
+        platform.add_extension(_gpio)
         
         # SoC with CPU
         SoCCore.__init__(
@@ -116,6 +123,11 @@ class BaseSoC(SoCCore):
         self.submodules.leds = Led(user_leds)
         self.add_spi_flash(mode="1x", module=GD25Q16(Codes.READ_1_1_1), with_master=True) 
         self.add_csr("leds")
+        
+        # GPIO
+        self.gpio_in = GPIOTristate(
+                pads     = platform.request("gpio_in"),
+                with_irq = self.irq.enabled)
         
 # Build -----------------------------------------------------------------------
 soc = BaseSoC()

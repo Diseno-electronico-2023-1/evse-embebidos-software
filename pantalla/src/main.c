@@ -12,6 +12,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <zephyr/kernel.h>
+#include <zephyr/sys/printk.h>
+#include "csr.h"
 
 
 
@@ -155,17 +157,22 @@ void perfil(void)
 
 int main(void)
 {   
+    gpio_in_oe_write(1);
     int count = 0;
-    while (count != 3)
+    while (count != 100)
     {
-        off();
-        lv_task_handler();
+        //off();
+        //lv_task_handler();
+        gpio_in_out_write(1);
+        printk("Led Encendido\n");
         k_sleep(K_MSEC(2000));
-	    bienvenida();
-	    lv_task_handler();
+	    //bienvenida();
+	    //lv_task_handler();
+        gpio_in_out_write(0);
+        printk("Led Apagado\n");
         k_sleep(K_MSEC(2000));
         count++;
     }
-    perfil();
-    lv_task_handler();
+    //perfil();
+    //lv_task_handler();
 }
