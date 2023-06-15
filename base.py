@@ -41,9 +41,9 @@ _i2c = [("i2c", 0,
         )
 ]
 
-_gpio =   [("gpio_in", 0, 
-                Pins("L18"), IOStandard("LVCMOS33")
-            )
+_gpio =   [
+    ("user_gpio", 0, Pins("L18"), IOStandard("LVCMOS33")),
+    ("user_gpio", 1, Pins("J20"), IOStandard("LVCMOS33")),
 ]
         
 # BaseSoC -----------------------------------------------------------------------------------------
@@ -119,15 +119,15 @@ class BaseSoC(SoCCore):
         self.i2c0 = I2CMaster(pads=platform.request("i2c"))
         
         # Led
-        user_leds = Cat(*[platform.request("user_led", i) for i in range(1)])
+        user_leds = Cat(*[platform.request("user_led", i) for i in range(2)])
         self.submodules.leds = Led(user_leds)
         self.add_spi_flash(mode="1x", module=GD25Q16(Codes.READ_1_1_1), with_master=True) 
         self.add_csr("leds")
         
         # GPIO
-        self.gpio_in = GPIOTristate(
-                pads     = platform.request("gpio_in"),
-                with_irq = self.irq.enabled)
+        self.user_gpio = GPIOTristate(
+            pads     = [platform.request("user_gpio",i) for i in range(2)],
+            with_irq = self.irq.enabled)
         
 # Build -----------------------------------------------------------------------
 soc = BaseSoC()

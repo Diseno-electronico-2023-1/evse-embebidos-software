@@ -157,22 +157,31 @@ void perfil(void)
 
 int main(void)
 {   
-    gpio_in_oe_write(1);
-    int count = 0;
-    while (count != 100)
-    {
-        //off();
-        //lv_task_handler();
-        gpio_in_out_write(1);
-        printk("Led Encendido\n");
-        k_sleep(K_MSEC(2000));
-	    //bienvenida();
-	    //lv_task_handler();
-        gpio_in_out_write(0);
-        printk("Led Apagado\n");
-        k_sleep(K_MSEC(2000));
-        count++;
+    user_gpio_oe_write(0);
+    printk("Inicio");
+
+    int data = 0;
+    int cont = 0;
+    bool state = 1;
+    while (state){   
+        data = user_gpio_in_read();
+        if (data == 1){
+            bienvenida();
+            lv_task_handler();
+        }
+        else if (data == 2)
+        {
+            perfil();
+            lv_task_handler();
+        }
+        else if (data == 3)
+        {
+            state = 0;
+        }
     }
+    //k_sleep(K_MSEC(1000));
     //perfil();
     //lv_task_handler();
+    //printk("Data: %x \n", data);
+    //user_gpio_out_write(1);
 }
