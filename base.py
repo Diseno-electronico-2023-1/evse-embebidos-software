@@ -35,15 +35,17 @@ _leds = [
 ]
 
 _i2c = [("i2c", 0,
-            Subsignal("sda",   Pins("M18")),
-            Subsignal("scl",   Pins("N17")),
+            Subsignal("sda",   Pins("J20")),
+            Subsignal("scl",   Pins("G20")),
             IOStandard("LVCMOS33")
         )
 ]
 
 _gpio =   [
-    ("user_gpio", 0, Pins("L18"), IOStandard("LVCMOS33")),
-    ("user_gpio", 1, Pins("J20"), IOStandard("LVCMOS33")),
+    ("user_gpio", 0, Pins("K20"), IOStandard("LVCMOS33")),
+    ("user_gpio", 1, Pins("L18"), IOStandard("LVCMOS33")),
+    ("user_gpio", 2, Pins("L20"), IOStandard("LVCMOS33")),
+    ("user_gpio", 3, Pins("M18"), IOStandard("LVCMOS33")),
 ]
         
 # BaseSoC -----------------------------------------------------------------------------------------
@@ -126,7 +128,7 @@ class BaseSoC(SoCCore):
         
         # GPIO
         self.user_gpio = GPIOTristate(
-            pads     = [platform.request("user_gpio",i) for i in range(2)],
+            pads     = [platform.request("user_gpio",i) for i in range(4)],
             with_irq = self.irq.enabled)
         
 # Build -----------------------------------------------------------------------
