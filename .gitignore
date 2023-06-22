@@ -1,4 +1,6 @@
 build/
 __pycache__
-csr*
+csr.csv
+csr.json
+csr.svd
 overlay*

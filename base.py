@@ -19,6 +19,7 @@ from litex.soc.cores.gpio import GPIOTristate
 from litespi.opcodes import SpiNorFlashOpCodes as Codes
 from liteeth.phy.ecp5rgmii import LiteEthPHYRGMII
 from litex.soc.cores.bitbang import I2CMaster
+from litex.soc.cores.spi import SPIMaster
 from ios import Led
 # IOs ------------------------------------------------------------------------
 _serial = [
@@ -37,6 +38,15 @@ _leds = [
 _i2c = [("i2c", 0,
             Subsignal("sda",   Pins("J20")),
             Subsignal("scl",   Pins("G20")),
+            IOStandard("LVCMOS33")
+        )
+]
+
+_spi = [("spi", 0,
+            Subsignal("cs_n", Pins("G3")),
+            Subsignal("clk",  Pins("F2")),
+            Subsignal("mosi", Pins("H4")),
+            Subsignal("miso", Pins("F1")),
             IOStandard("LVCMOS33")
         )
 ]
@@ -83,6 +93,7 @@ class BaseSoC(SoCCore):
         platform.add_extension(_serial)
         platform.add_extension(_leds)
         platform.add_extension(_i2c)
+        platform.add_extension(_spi)
         platform.add_extension(_gpio)
         
         # SoC with CPU
@@ -120,6 +131,11 @@ class BaseSoC(SoCCore):
         # I2C
         self.i2c0 = I2CMaster(pads=platform.request("i2c"))
         
+        # SPI
+        self.submodules.spi = SPIMaster(platform.request("spi", 0), 8, self.sys_clk_freq, 8e6)
+        self.spi.add_clk_divider()
+        self.add_csr("spi")
+
         # Led
         user_leds = Cat(*[platform.request("user_led", i) for i in range(2)])
         self.submodules.leds = Led(user_leds)
