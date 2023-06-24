@@ -21,6 +21,7 @@ from liteeth.phy.ecp5rgmii import LiteEthPHYRGMII
 from litex.soc.cores.bitbang import I2CMaster
 from litex.soc.cores.spi import SPIMaster
 from ios import Led
+
 # IOs ------------------------------------------------------------------------
 _serial = [
     ("serial", 0,
@@ -35,6 +36,25 @@ _leds = [
     ("user_led", 1, Pins("F3"), IOStandard("LVCMOS33")),  # LED externo
 ]
 
+_eth = [
+    ("eth_clocks", 0,
+        Subsignal("ref_clk", Pins("E6")),
+        IOStandard("LVCMOS33")
+    ),
+    ("eth", 0,
+        # Subsignal("rst_n",   Pins(" ")),
+        Subsignal("rx_data", Pins("D16 G5")),
+        Subsignal("crs_dv",  Pins("F5")),
+        Subsignal("tx_en",   Pins("D17")),
+        Subsignal("tx_data", Pins("D18 E17")),
+        # Subsignal("mdc",     Pins(" ")),
+        # Subsignal("mdio",    Pins(" ")),
+        # Subsignal("rx_er",  Pins(" ")),
+        # Subsignal("int_n",  Pins(" ")),
+        IOStandard("LVCMOS33")
+    ),
+]
+
 _i2c = [("i2c", 0,
             Subsignal("sda",   Pins("J20")),
             Subsignal("scl",   Pins("G20")),
@@ -42,14 +62,14 @@ _i2c = [("i2c", 0,
         )
 ]
 
-""" _spi = [("spi", 0,
+_spi = [("spi", 0,
             Subsignal("cs_n", Pins("G3")),
             Subsignal("clk",  Pins("F2")),
             Subsignal("mosi", Pins("H4")),
             Subsignal("miso", Pins("F1")),
             IOStandard("LVCMOS33")
         )
-] """
+]
 
 _gpio =   [
     ("user_gpio", 0, Pins("K20"), IOStandard("LVCMOS33")),
@@ -92,8 +112,9 @@ class BaseSoC(SoCCore):
         sys_clk_freq = int(100e6)
         platform.add_extension(_serial)
         platform.add_extension(_leds)
+        platform.add_extension(_eth)
         platform.add_extension(_i2c)
-        # platform.add_extension(_spi)
+        platform.add_extension(_spi)
         platform.add_extension(_gpio)
         
         # SoC with CPU
@@ -124,18 +145,18 @@ class BaseSoC(SoCCore):
         
         # Ethernet
         self.ethphy = LiteEthPHYRGMII(
-            clock_pads = self.platform.request("eth_clocks", 0),
-            pads       = self.platform.request("eth", 0),
-            tx_delay = 0)
+            clock_pads = self.platform.request("eth_clocks"),
+            pads       = self.platform.request("eth"),
+            refclk_cd  = None)
         self.add_ethernet(phy=self.ethphy)
         
         # I2C
-        self.i2c0 = I2CMaster(pads=platform.request("i2c"))
+        self.i2c0 = I2CMaster(pads = platform.request("i2c"))
         
-        """ # SPI
+        # SPI
         self.submodules.spi = SPIMaster(platform.request("spi", 0), 8, self.sys_clk_freq, 8e6)
         self.spi.add_clk_divider()
-        self.add_csr("spi") """
+        self.add_csr("spi")
 
         # Led
         user_leds = Cat(*[platform.request("user_led", i) for i in range(2)])
