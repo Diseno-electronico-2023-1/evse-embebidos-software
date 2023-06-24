@@ -14,8 +14,8 @@
 LOG_MODULE_REGISTER(app);
 
 #include "csr.h"
-#include "screens/welcomeScreen.c"
 #include "screens/offScreen.c"
+#include "screens/welcomeScreen.c"
 #include "screens/profileScreen.c"
 #include "screens/statusScreen.c"
 
