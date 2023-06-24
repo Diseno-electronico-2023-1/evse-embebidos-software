@@ -14,7 +14,8 @@ all:
 gateware:
 	./base.py
 
-firmware: ${SOFT_DIR}/common.mak
+firmware: 
+	${SOFT_DIR}/common.mak
 	$(MAKE) -C firmware/ -f Makefile all
 
 overlay: 
@@ -23,13 +24,15 @@ overlay:
 app_zephyr:
 	west build -b litex_vexriscv ${WORK_DIR}pantalla/ -DSHIELD=ssd1306_128x64 -DDTC_OVERLAY_FILE=${WORK_DIR}overlay.dts
 	
+app_zephyr_server:
+	west build -b litex_vexriscv ${WORK_DIR}http_server/ -DDTC_OVERLAY_FILE=${WORK_DIR}overlay.dts
+
 configure:
 	sudo openFPGALoader -b colorlight-i5 -m ${GATE_DIR}/${TARGET}.bit 
 
 load_zephyr_app:
 	litex_term ${SERIAL} --kernel ${WORK_DIR}build/zephyr/zephyr.bin
 
-	
 litex_term: 
 	litex_term ${SERIAL} --kernel hello_world/hello_world.bin
 
@@ -53,7 +56,8 @@ clean: firmware-clean gateware-clean
 
 
 # conda activate fpga
-# source /home/leodtr/Programs/zephyrproject/zephyr/zephyr-env.sh 
+# source /home/leodtr/Programs/zephyrproject/zephyr/zephyr-env.sh
 
+# sudo ifconfig enp7s0 192.0.2.2 up
 
 
