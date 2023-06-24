@@ -23,6 +23,16 @@ overlay:
 app_zephyr:
 	west build -b litex_vexriscv ${WORK_DIR}pantalla/ -DSHIELD=ssd1306_128x64 -DDTC_OVERLAY_FILE=${WORK_DIR}overlay.dts
 	
+app_zephyr_server:
+	west build -b litex_vexriscv ${WORK_DIR}http_server/ -DDTC_OVERLAY_FILE=${WORK_DIR}overlay.dts
+
+app_zephyr_eth: 
+	west build -b litex_vexriscv ${ZEPHYR_DIR}zephyr/samples/net/eth_native_posix -DDTC_OVERLAY_FILE=${WORK_DIR}overlay.dts
+
+ipserver_configure:
+	sudo ifconfig enp7s0 192.0.2.2 up
+	ifconfig
+
 configure:
 	sudo openFPGALoader -b colorlight-i5 -m ${GATE_DIR}/${TARGET}.bit 
 
@@ -47,13 +57,17 @@ firmware-clean:
 	make -C firmware -f Makefile clean
 	
 zephyr-clean:
-	rm -rf build/zephyr build/CMakeFiles build/CMakeCache.txt 
+	rm -rf build/zephyr build/CMakeFiles build/CMakeCache.txt
+
+soc-restart:
+	rm -rf build/ _pycache_/
 
 clean: firmware-clean gateware-clean
 
 
 # conda activate fpga
 # source /home/leodtr/Programs/zephyrproject/zephyr/zephyr-env.sh 
+# sudo ifconfig enp7s0 192.0.2.2 up
 
 
 

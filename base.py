@@ -17,7 +17,7 @@ from litedram.phy import GENSDRPHY, HalfRateGENSDRPHY
 from litespi.modules import GD25Q16
 from litex.soc.cores.gpio import GPIOTristate
 from litespi.opcodes import SpiNorFlashOpCodes as Codes
-from liteeth.phy.ecp5rgmii import LiteEthPHYRGMII
+from liteeth.phy.rmii import LiteEthPHYRMII
 from litex.soc.cores.bitbang import I2CMaster
 from litex.soc.cores.spi import SPIMaster
 from ios import Led
@@ -144,9 +144,10 @@ class BaseSoC(SoCCore):
         )
         
         # Ethernet
-        self.ethphy = LiteEthPHYRGMII(
+        self.ethphy = LiteEthPHYRMII(
             clock_pads = self.platform.request("eth_clocks"),
-            pads       = self.platform.request("eth"))
+            pads       = self.platform.request("eth"),
+            refclk_cd  = None)
         self.add_ethernet(phy=self.ethphy)
         
         # I2C
