@@ -1,6 +1,7 @@
 build/
 __pycache__/
 .vscode/
+Makefile
 csr.csv
 csr.json
 csr.svd
