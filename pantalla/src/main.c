@@ -1,187 +1,160 @@
-/*
- * Copyright (c) 2018 Jan Van Winkel <jan.van_winkel@dxplore.eu>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
+#include <stdio.h>
+#include <string.h>
 
+#include <lvgl.h>
 #include <zephyr/device.h>
 #include <zephyr/devicetree.h>
 #include <zephyr/drivers/display.h>
 #include <zephyr/drivers/gpio.h>
-#include <lvgl.h>
-#include <stdio.h>
-#include <string.h>
 #include <zephyr/kernel.h>
 #include <zephyr/sys/printk.h>
-#include "csr.h"
-
-
-
 
 #define LOG_LEVEL CONFIG_LOG_DEFAULT_LEVEL
 #include <zephyr/logging/log.h>
 LOG_MODULE_REGISTER(app);
 
-static uint32_t count;
+#include "csr.h"
+#include "screens/welcomeScreen.c"
+#include "screens/offScreen.c"
+#include "screens/profileScreen.c"
+#include "screens/statusScreen.c"
 
-#ifdef CONFIG_GPIO
-static struct gpio_dt_spec button_gpio = GPIO_DT_SPEC_GET_OR(
-		DT_ALIAS(sw0), gpios, {0});
-static struct gpio_callback button_callback;
+// Botones
+    const int btn_back = 1;
+    const int btn_up   = 2;
+    const int btn_down = 4;
+    const int btn_next = 8;
 
-static void button_isr_callback(const struct device *port,
-				struct gpio_callback *cb,
-				uint32_t pins)
-{
-	ARG_UNUSED(port);
-	ARG_UNUSED(cb);
-	ARG_UNUSED(pins);
-
-	count = 0;
-}
-#endif
-
-void off(void)
-{
-    lv_obj_t * panel;
-    panel = lv_obj_create(lv_scr_act());
-    lv_obj_set_width(panel, 7000);
-    lv_obj_set_height(panel, 7000);
-    lv_obj_set_x(panel, -15);
-    lv_obj_set_y(panel, -15);
-
-    static lv_point_t line_points1[] = { {0, 8}, {128, 8}};
-    static lv_point_t line_points2[] = { {0, 24}, {128, 24}};
-    static lv_point_t line_points3[] = { {0, 40}, {128, 40}};
-    static lv_point_t line_points4[] = { {0, 56}, {128, 56}};
-
-    static lv_style_t style_line;
-    lv_style_init(&style_line);
-    lv_style_set_line_width(&style_line, 16);
-    lv_style_set_line_rounded(&style_line, false);
-    
-    lv_obj_t * line1;
-    line1 = lv_line_create(panel);
-    lv_line_set_points(line1, line_points1, 2);
-    lv_obj_add_style(line1, &style_line, 0);
-
-    lv_obj_t * line2;
-    line2 = lv_line_create(panel);
-    lv_line_set_points(line2, line_points2, 2);
-    lv_obj_add_style(line2, &style_line, 0);
-
-    lv_obj_t * line3;
-    line3 = lv_line_create(panel);
-    lv_line_set_points(line3, line_points3, 2);
-    lv_obj_add_style(line3, &style_line, 0);
-
-    lv_obj_t * line4;
-    line4 = lv_line_create(panel);
-    lv_line_set_points(line4, line_points4, 2);
-    lv_obj_add_style(line4, &style_line, 0);
-}
-
-void bienvenida(void)
-{
-    lv_obj_t * panel;
-    panel = lv_obj_create(lv_scr_act());
-    lv_obj_set_width(panel, 7000);
-    lv_obj_set_height(panel, 7000);
-    lv_obj_set_x(panel, -15);
-    lv_obj_set_y(panel, -15);
-
-    lv_obj_t * label1;
-    
-    label1 = lv_label_create(panel);
-    lv_label_set_text(label1, "Bienvenido a");
-    lv_obj_set_pos(label1, 20, 16);
-
-    lv_obj_t * label2;
-    
-    label2 = lv_label_create(panel);
-    lv_label_set_text(label2, "UN Cargador");
-    lv_obj_set_pos(label2, 20, 32);
-
-    static lv_point_t line_points1[] = { {0, 8}, {128, 8}};
-    static lv_point_t line_points4[] = { {0, 56}, {128, 56}};
-
-    static lv_style_t style_line;
-    lv_style_init(&style_line);
-    lv_style_set_line_width(&style_line, 16);
-    lv_style_set_line_rounded(&style_line, false);
-
-    lv_obj_t * line1;
-    line1 = lv_line_create(lv_scr_act());
-    lv_line_set_points(line1, line_points1, 2);
-    lv_obj_add_style(line1, &style_line, 0);
-
-    lv_obj_t * line4;
-    line4 = lv_line_create(panel);
-    lv_line_set_points(line4, line_points4, 2);
-    lv_obj_add_style(line4, &style_line, 0);
-}
-
-void perfil(void)
-{
-    lv_obj_t * panel;
-    panel = lv_obj_create(lv_scr_act());
-    lv_obj_set_width(panel, 7000);
-    lv_obj_set_height(panel, 7000);
-    lv_obj_set_x(panel, -15);
-    lv_obj_set_y(panel, -15);
-
-    lv_obj_t * label1;
-    
-    label1 = lv_label_create(lv_scr_act());
-    lv_label_set_text(label1, "Select a profile");
-    lv_obj_set_pos(label1, 5, 0);
-
-    lv_obj_t * label2;
-    
-    label2 = lv_label_create(panel);
-    lv_label_set_text(label2, "- Profile 1");
-    lv_obj_set_pos(label2, 20, 16);
-
-    lv_obj_t * label3;
-    
-    label3 = lv_label_create(panel);
-    lv_label_set_text(label3, "- Profile 2");
-    lv_obj_set_pos(label3, 20, 32);
-
-    lv_obj_t * label4;
-
-    label4 = lv_label_create(panel);
-    lv_label_set_text(label4, "- Profile 3");
-    lv_obj_set_pos(label4, 20, 48);
-}
-
-int main(void)
-{   
-    user_gpio_oe_write(0);
-    printk("Inicio");
-
-    int data = 0;
-    int cont = 0;
-    bool state = 1;
-    while (state){   
-        data = user_gpio_in_read();
-        if (data == 1){
-            bienvenida();
-            lv_task_handler();
+int moveSelector(int selector, int btn_state, int maxSelector){
+    if (btn_state == btn_down){
+        if (selector == maxSelector){
+            selector = 1;
+        } else{
+            selector ++;
         }
-        else if (data == 2)
-        {
-            perfil();
-            lv_task_handler();
-        }
-        else if (data == 3)
-        {
-            state = 0;
+    } else if (btn_state == btn_up){
+        if (selector == 1){
+            selector = maxSelector;
+        } else{
+            selector --;
         }
     }
-    //k_sleep(K_MSEC(1000));
-    //perfil();
-    //lv_task_handler();
-    //printk("Data: %x \n", data);
-    //user_gpio_out_write(1);
+    return selector;
 }
+
+void main(void){
+
+    printk("Inicio \n");
+    
+    user_gpio_oe_write(0);
+
+    bool work = 1;
+    int state;
+    int btn_state;
+    int selector = 1;
+    int profile_sel = 1;
+
+    // Estados
+    const int welcome = '1';
+    const int selprofile = '2';
+    const int status = '3';
+    const int end = '4';
+    
+
+    char names[3][16];
+    strncpy(names[0], "Hugo", sizeof(names[0]) - 1);
+    strncpy(names[1], "Paco", sizeof(names[1]) - 1);
+    strncpy(names[2], "Luis", sizeof(names[2]) - 1);
+
+    state = welcome;
+    welcome_screen();
+    lv_task_handler();
+
+    while (work){
+        switch (state){
+        case welcome :
+            btn_state = user_gpio_in_read();
+
+            if (btn_state != 0){   
+                profile_screen(1, names);
+                lv_task_handler();
+                selector = 1;
+                state = selprofile;
+            }
+            break;
+        
+        case selprofile :
+            btn_state = user_gpio_in_read();
+            
+            if (btn_state != 0){   
+                if (btn_state == btn_back){
+                    state = welcome;
+                    welcome_screen();
+                    lv_task_handler();
+                } else if (btn_state == btn_next){
+                    state = status;
+                    profile_sel = selector - 1;
+                    selector = 1;
+                    status_screen(selector, names[profile_sel]);
+                    lv_task_handler();
+                } else{
+                    selector = moveSelector(selector, btn_state, 3);
+                    profile_screen(selector, names);
+                    lv_task_handler();
+                }
+            }
+            break;
+
+        case status :
+            btn_state = user_gpio_in_read();
+            
+            if (btn_state != 0){   
+                if (btn_state == btn_back){
+                    state = selprofile;
+                    selector = 1;
+                    profile_screen(selector, names);
+                    lv_task_handler();                    
+                } else if (btn_state == btn_next){
+                    off_screen();
+                    lv_task_handler();
+                    selector = 1;
+                    state = end;
+                } else{
+                    selector = moveSelector(selector, btn_state, 5);
+                    status_screen(selector, names[profile_sel]);
+                    lv_task_handler();
+                }
+            }
+            break;
+
+        default:
+            work = 0;
+            break;
+        }
+
+        k_sleep(K_MSEC(100));
+    }
+    
+    printk("Fin \n");
+
+}
+
+
+/* void main(void){
+    bool work = 1;
+    int sel = 1;
+    int btn_state = 0;
+
+    while (work){
+        btn_state = user_gpio_in_read();
+        printk("Sel: %x  Btn: %x \n", sel, btn_state);
+        sel = moveSelector(sel, btn_state, 1, 3);
+        k_sleep(K_MSEC(100));
+    }
+} */
+
+//k_sleep(K_MSEC(1000));
+//perfil();
+//lv_task_handler();
+//printk("Data: %x \n", data);
+//user_gpio_out_write(1);

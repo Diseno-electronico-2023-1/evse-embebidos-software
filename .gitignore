@@ -1,5 +1,6 @@
 build/
-__pycache__
+__pycache__/
+.vscode/
 csr.csv
 csr.json
 csr.svd
