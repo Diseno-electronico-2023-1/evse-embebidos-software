@@ -15,49 +15,217 @@ static inline unsigned long csr_read_simple(unsigned long a)
 	return MMPTR(a);
 }
 
+/* spi */
+#define CSR_SPI_BASE (CSR_BASE + 0x0L)
+#define CSR_SPI_CONTROL_ADDR (CSR_BASE + 0x0L)
+#define CSR_SPI_CONTROL_SIZE 1
+static inline uint32_t spi_control_read(void) {
+	return csr_read_simple((CSR_BASE + 0x0L));
+}
+static inline void spi_control_write(uint32_t v) {
+	csr_write_simple(v, (CSR_BASE + 0x0L));
+}
+#define CSR_SPI_CONTROL_START_OFFSET 0
+#define CSR_SPI_CONTROL_START_SIZE 1
+static inline uint32_t spi_control_start_extract(uint32_t oldword) {
+	uint32_t mask = 0x1;
+	return ( (oldword >> 0) & mask );
+}
+static inline uint32_t spi_control_start_read(void) {
+	uint32_t word = spi_control_read();
+	return spi_control_start_extract(word);
+}
+static inline uint32_t spi_control_start_replace(uint32_t oldword, uint32_t plain_value) {
+	uint32_t mask = 0x1;
+	return (oldword & (~(mask << 0))) | (mask & plain_value)<< 0 ;
+}
+static inline void spi_control_start_write(uint32_t plain_value) {
+	uint32_t oldword = spi_control_read();
+	uint32_t newword = spi_control_start_replace(oldword, plain_value);
+	spi_control_write(newword);
+}
+#define CSR_SPI_CONTROL_LENGTH_OFFSET 8
+#define CSR_SPI_CONTROL_LENGTH_SIZE 8
+static inline uint32_t spi_control_length_extract(uint32_t oldword) {
+	uint32_t mask = 0xff;
+	return ( (oldword >> 8) & mask );
+}
+static inline uint32_t spi_control_length_read(void) {
+	uint32_t word = spi_control_read();
+	return spi_control_length_extract(word);
+}
+static inline uint32_t spi_control_length_replace(uint32_t oldword, uint32_t plain_value) {
+	uint32_t mask = 0xff;
+	return (oldword & (~(mask << 8))) | (mask & plain_value)<< 8 ;
+}
+static inline void spi_control_length_write(uint32_t plain_value) {
+	uint32_t oldword = spi_control_read();
+	uint32_t newword = spi_control_length_replace(oldword, plain_value);
+	spi_control_write(newword);
+}
+#define CSR_SPI_STATUS_ADDR (CSR_BASE + 0x4L)
+#define CSR_SPI_STATUS_SIZE 1
+static inline uint32_t spi_status_read(void) {
+	return csr_read_simple((CSR_BASE + 0x4L));
+}
+#define CSR_SPI_STATUS_DONE_OFFSET 0
+#define CSR_SPI_STATUS_DONE_SIZE 1
+static inline uint32_t spi_status_done_extract(uint32_t oldword) {
+	uint32_t mask = 0x1;
+	return ( (oldword >> 0) & mask );
+}
+static inline uint32_t spi_status_done_read(void) {
+	uint32_t word = spi_status_read();
+	return spi_status_done_extract(word);
+}
+#define CSR_SPI_STATUS_MODE_OFFSET 1
+#define CSR_SPI_STATUS_MODE_SIZE 1
+static inline uint32_t spi_status_mode_extract(uint32_t oldword) {
+	uint32_t mask = 0x1;
+	return ( (oldword >> 1) & mask );
+}
+static inline uint32_t spi_status_mode_read(void) {
+	uint32_t word = spi_status_read();
+	return spi_status_mode_extract(word);
+}
+#define CSR_SPI_MOSI_ADDR (CSR_BASE + 0x8L)
+#define CSR_SPI_MOSI_SIZE 1
+static inline uint32_t spi_mosi_read(void) {
+	return csr_read_simple((CSR_BASE + 0x8L));
+}
+static inline void spi_mosi_write(uint32_t v) {
+	csr_write_simple(v, (CSR_BASE + 0x8L));
+}
+#define CSR_SPI_MISO_ADDR (CSR_BASE + 0xcL)
+#define CSR_SPI_MISO_SIZE 1
+static inline uint32_t spi_miso_read(void) {
+	return csr_read_simple((CSR_BASE + 0xcL));
+}
+#define CSR_SPI_CS_ADDR (CSR_BASE + 0x10L)
+#define CSR_SPI_CS_SIZE 1
+static inline uint32_t spi_cs_read(void) {
+	return csr_read_simple((CSR_BASE + 0x10L));
+}
+static inline void spi_cs_write(uint32_t v) {
+	csr_write_simple(v, (CSR_BASE + 0x10L));
+}
+#define CSR_SPI_CS_SEL_OFFSET 0
+#define CSR_SPI_CS_SEL_SIZE 1
+static inline uint32_t spi_cs_sel_extract(uint32_t oldword) {
+	uint32_t mask = 0x1;
+	return ( (oldword >> 0) & mask );
+}
+static inline uint32_t spi_cs_sel_read(void) {
+	uint32_t word = spi_cs_read();
+	return spi_cs_sel_extract(word);
+}
+static inline uint32_t spi_cs_sel_replace(uint32_t oldword, uint32_t plain_value) {
+	uint32_t mask = 0x1;
+	return (oldword & (~(mask << 0))) | (mask & plain_value)<< 0 ;
+}
+static inline void spi_cs_sel_write(uint32_t plain_value) {
+	uint32_t oldword = spi_cs_read();
+	uint32_t newword = spi_cs_sel_replace(oldword, plain_value);
+	spi_cs_write(newword);
+}
+#define CSR_SPI_CS_MODE_OFFSET 16
+#define CSR_SPI_CS_MODE_SIZE 1
+static inline uint32_t spi_cs_mode_extract(uint32_t oldword) {
+	uint32_t mask = 0x1;
+	return ( (oldword >> 16) & mask );
+}
+static inline uint32_t spi_cs_mode_read(void) {
+	uint32_t word = spi_cs_read();
+	return spi_cs_mode_extract(word);
+}
+static inline uint32_t spi_cs_mode_replace(uint32_t oldword, uint32_t plain_value) {
+	uint32_t mask = 0x1;
+	return (oldword & (~(mask << 16))) | (mask & plain_value)<< 16 ;
+}
+static inline void spi_cs_mode_write(uint32_t plain_value) {
+	uint32_t oldword = spi_cs_read();
+	uint32_t newword = spi_cs_mode_replace(oldword, plain_value);
+	spi_cs_write(newword);
+}
+#define CSR_SPI_LOOPBACK_ADDR (CSR_BASE + 0x14L)
+#define CSR_SPI_LOOPBACK_SIZE 1
+static inline uint32_t spi_loopback_read(void) {
+	return csr_read_simple((CSR_BASE + 0x14L));
+}
+static inline void spi_loopback_write(uint32_t v) {
+	csr_write_simple(v, (CSR_BASE + 0x14L));
+}
+#define CSR_SPI_LOOPBACK_MODE_OFFSET 0
+#define CSR_SPI_LOOPBACK_MODE_SIZE 1
+static inline uint32_t spi_loopback_mode_extract(uint32_t oldword) {
+	uint32_t mask = 0x1;
+	return ( (oldword >> 0) & mask );
+}
+static inline uint32_t spi_loopback_mode_read(void) {
+	uint32_t word = spi_loopback_read();
+	return spi_loopback_mode_extract(word);
+}
+static inline uint32_t spi_loopback_mode_replace(uint32_t oldword, uint32_t plain_value) {
+	uint32_t mask = 0x1;
+	return (oldword & (~(mask << 0))) | (mask & plain_value)<< 0 ;
+}
+static inline void spi_loopback_mode_write(uint32_t plain_value) {
+	uint32_t oldword = spi_loopback_read();
+	uint32_t newword = spi_loopback_mode_replace(oldword, plain_value);
+	spi_loopback_write(newword);
+}
+#define CSR_SPI_CLK_DIVIDER_ADDR (CSR_BASE + 0x18L)
+#define CSR_SPI_CLK_DIVIDER_SIZE 1
+static inline uint32_t spi_clk_divider_read(void) {
+	return csr_read_simple((CSR_BASE + 0x18L));
+}
+static inline void spi_clk_divider_write(uint32_t v) {
+	csr_write_simple(v, (CSR_BASE + 0x18L));
+}
+
 /* user_gpio */
-#define CSR_USER_GPIO_BASE (CSR_BASE + 0x5800L)
-#define CSR_USER_GPIO_OE_ADDR (CSR_BASE + 0x5800L)
+#define CSR_USER_GPIO_BASE (CSR_BASE + 0x6000L)
+#define CSR_USER_GPIO_OE_ADDR (CSR_BASE + 0x6000L)
 #define CSR_USER_GPIO_OE_SIZE 1
 static inline uint32_t user_gpio_oe_read(void) {
-	return csr_read_simple((CSR_BASE + 0x5800L));
+	return csr_read_simple((CSR_BASE + 0x6000L));
 }
 static inline void user_gpio_oe_write(uint32_t v) {
-	csr_write_simple(v, (CSR_BASE + 0x5800L));
+	csr_write_simple(v, (CSR_BASE + 0x6000L));
 }
-#define CSR_USER_GPIO_IN_ADDR (CSR_BASE + 0x5804L)
+#define CSR_USER_GPIO_IN_ADDR (CSR_BASE + 0x6004L)
 #define CSR_USER_GPIO_IN_SIZE 1
 static inline uint32_t user_gpio_in_read(void) {
-	return csr_read_simple((CSR_BASE + 0x5804L));
+	return csr_read_simple((CSR_BASE + 0x6004L));
 }
-#define CSR_USER_GPIO_OUT_ADDR (CSR_BASE + 0x5808L)
+#define CSR_USER_GPIO_OUT_ADDR (CSR_BASE + 0x6008L)
 #define CSR_USER_GPIO_OUT_SIZE 1
 static inline uint32_t user_gpio_out_read(void) {
-	return csr_read_simple((CSR_BASE + 0x5808L));
+	return csr_read_simple((CSR_BASE + 0x6008L));
 }
 static inline void user_gpio_out_write(uint32_t v) {
-	csr_write_simple(v, (CSR_BASE + 0x5808L));
+	csr_write_simple(v, (CSR_BASE + 0x6008L));
 }
-#define CSR_USER_GPIO_MODE_ADDR (CSR_BASE + 0x580cL)
+#define CSR_USER_GPIO_MODE_ADDR (CSR_BASE + 0x600cL)
 #define CSR_USER_GPIO_MODE_SIZE 1
 static inline uint32_t user_gpio_mode_read(void) {
-	return csr_read_simple((CSR_BASE + 0x580cL));
+	return csr_read_simple((CSR_BASE + 0x600cL));
 }
 static inline void user_gpio_mode_write(uint32_t v) {
-	csr_write_simple(v, (CSR_BASE + 0x580cL));
+	csr_write_simple(v, (CSR_BASE + 0x600cL));
 }
-#define CSR_USER_GPIO_EDGE_ADDR (CSR_BASE + 0x5810L)
+#define CSR_USER_GPIO_EDGE_ADDR (CSR_BASE + 0x6010L)
 #define CSR_USER_GPIO_EDGE_SIZE 1
 static inline uint32_t user_gpio_edge_read(void) {
-	return csr_read_simple((CSR_BASE + 0x5810L));
+	return csr_read_simple((CSR_BASE + 0x6010L));
 }
 static inline void user_gpio_edge_write(uint32_t v) {
-	csr_write_simple(v, (CSR_BASE + 0x5810L));
+	csr_write_simple(v, (CSR_BASE + 0x6010L));
 }
-#define CSR_USER_GPIO_EV_STATUS_ADDR (CSR_BASE + 0x5814L)
+#define CSR_USER_GPIO_EV_STATUS_ADDR (CSR_BASE + 0x6014L)
 #define CSR_USER_GPIO_EV_STATUS_SIZE 1
 static inline uint32_t user_gpio_ev_status_read(void) {
-	return csr_read_simple((CSR_BASE + 0x5814L));
+	return csr_read_simple((CSR_BASE + 0x6014L));
 }
 #define CSR_USER_GPIO_EV_STATUS_I0_OFFSET 0
 #define CSR_USER_GPIO_EV_STATUS_I0_SIZE 1
@@ -99,13 +267,13 @@ static inline uint32_t user_gpio_ev_status_i3_read(void) {
 	uint32_t word = user_gpio_ev_status_read();
 	return user_gpio_ev_status_i3_extract(word);
 }
-#define CSR_USER_GPIO_EV_PENDING_ADDR (CSR_BASE + 0x5818L)
+#define CSR_USER_GPIO_EV_PENDING_ADDR (CSR_BASE + 0x6018L)
 #define CSR_USER_GPIO_EV_PENDING_SIZE 1
 static inline uint32_t user_gpio_ev_pending_read(void) {
-	return csr_read_simple((CSR_BASE + 0x5818L));
+	return csr_read_simple((CSR_BASE + 0x6018L));
 }
 static inline void user_gpio_ev_pending_write(uint32_t v) {
-	csr_write_simple(v, (CSR_BASE + 0x5818L));
+	csr_write_simple(v, (CSR_BASE + 0x6018L));
 }
 #define CSR_USER_GPIO_EV_PENDING_I0_OFFSET 0
 #define CSR_USER_GPIO_EV_PENDING_I0_SIZE 1
@@ -183,13 +351,13 @@ static inline void user_gpio_ev_pending_i3_write(uint32_t plain_value) {
 	uint32_t newword = user_gpio_ev_pending_i3_replace(oldword, plain_value);
 	user_gpio_ev_pending_write(newword);
 }
-#define CSR_USER_GPIO_EV_ENABLE_ADDR (CSR_BASE + 0x581cL)
+#define CSR_USER_GPIO_EV_ENABLE_ADDR (CSR_BASE + 0x601cL)
 #define CSR_USER_GPIO_EV_ENABLE_SIZE 1
 static inline uint32_t user_gpio_ev_enable_read(void) {
-	return csr_read_simple((CSR_BASE + 0x581cL));
+	return csr_read_simple((CSR_BASE + 0x601cL));
 }
 static inline void user_gpio_ev_enable_write(uint32_t v) {
-	csr_write_simple(v, (CSR_BASE + 0x581cL));
+	csr_write_simple(v, (CSR_BASE + 0x601cL));
 }
 #define CSR_USER_GPIO_EV_ENABLE_I0_OFFSET 0
 #define CSR_USER_GPIO_EV_ENABLE_I0_SIZE 1
