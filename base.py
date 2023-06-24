@@ -146,8 +146,7 @@ class BaseSoC(SoCCore):
         # Ethernet
         self.ethphy = LiteEthPHYRGMII(
             clock_pads = self.platform.request("eth_clocks"),
-            pads       = self.platform.request("eth"),
-            refclk_cd  = None)
+            pads       = self.platform.request("eth"))
         self.add_ethernet(phy=self.ethphy)
         
         # I2C
