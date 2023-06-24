@@ -20,12 +20,9 @@ firmware: ${SOFT_DIR}/common.mak
 overlay: 
 	${LITEX_DIR}/litex/litex/tools/litex_json2dts_zephyr.py --dts overlay.dts --config overlay.config csr.json
 	
-app_zephyr_pantalla:
+app_zephyr:
 	west build -b litex_vexriscv ${WORK_DIR}pantalla/ -DSHIELD=ssd1306_128x64 -DDTC_OVERLAY_FILE=${WORK_DIR}overlay.dts
 	
-app_zephyr_btn:
-	west build -b litex_vexriscv ${ZEPHYR_DIR}samples/basic/button -DDTC_OVERLAY_FILE=${WORK_DIR}overlay.dts
-
 configure:
 	sudo openFPGALoader -b colorlight-i5 -m ${GATE_DIR}/${TARGET}.bit 
 

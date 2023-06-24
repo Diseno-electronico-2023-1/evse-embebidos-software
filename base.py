@@ -42,14 +42,14 @@ _i2c = [("i2c", 0,
         )
 ]
 
-_spi = [("spi", 0,
+""" _spi = [("spi", 0,
             Subsignal("cs_n", Pins("G3")),
             Subsignal("clk",  Pins("F2")),
             Subsignal("mosi", Pins("H4")),
             Subsignal("miso", Pins("F1")),
             IOStandard("LVCMOS33")
         )
-]
+] """
 
 _gpio =   [
     ("user_gpio", 0, Pins("K20"), IOStandard("LVCMOS33")),
@@ -93,7 +93,7 @@ class BaseSoC(SoCCore):
         platform.add_extension(_serial)
         platform.add_extension(_leds)
         platform.add_extension(_i2c)
-        platform.add_extension(_spi)
+        # platform.add_extension(_spi)
         platform.add_extension(_gpio)
         
         # SoC with CPU
@@ -103,6 +103,7 @@ class BaseSoC(SoCCore):
             clk_freq                 = sys_clk_freq,
             ident                    = "LiteX CPU cain_test", ident_version=True,
             integrated_rom_size      = 0xB000,
+            integrated_sram_size     = 0x2000,
             timer_uptime             = True)
         self.submodules.crg = _CRG(
             platform         = platform, 
@@ -131,10 +132,10 @@ class BaseSoC(SoCCore):
         # I2C
         self.i2c0 = I2CMaster(pads=platform.request("i2c"))
         
-        # SPI
+        """ # SPI
         self.submodules.spi = SPIMaster(platform.request("spi", 0), 8, self.sys_clk_freq, 8e6)
         self.spi.add_clk_divider()
-        self.add_csr("spi")
+        self.add_csr("spi") """
 
         # Led
         user_leds = Cat(*[platform.request("user_led", i) for i in range(2)])
