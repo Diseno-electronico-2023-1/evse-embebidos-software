@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2017 Linaro Limited
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -27,32 +33,28 @@
 
 #define CHECK(r) { if (r == -1) { printf("Error: " #r "\n"); exit(1); } }
 
-static char pagina[15000] = {
+static char pagina[18500] = {
 #if USE_BIG_PAYLOAD
     #include "response_big.html.bin.inc"
 #else
     #include "response_small.html.bin.inc"
 #endif
 };
-
-int potencia = 1500;
-int energia = 1100;
-int autonomia = 410;
-int altura = 160;
-char cadena2[1000];
+int voltaje = 1500;
+int corriente = 1100;
+int temperatura = 410;
+char cadena[1500];
 static char content[20000];
-
-void main(void){
-
+void main(void)
+{
 	int serv;
 	struct sockaddr_in bind_addr;
 	static int counter;
 	int ret;
-	
 	serv = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	CHECK(serv);
-    	sprintf(cadena2,"HTTP/1.0 200 OK\nContent-Type: text/html; charset=utf-8\n\n<!DOCTYPE html>\n<html lang=\"es\">\n<head>\n<script>\nvar autonomia=\"%d\";",autonomia);
-        sprintf(content,"%s\n%s",cadena2,pagina);
+    	sprintf(cadena,"HTTP/1.0 200 OK\nContent-Type: text/html; charset=utf-8\n\n<!DOCTYPE html>\n<html lang=\"es\">\n<head>\n<script>\nvar tension = %d;\nvar corriente = %d;\nvar temperatura = %d;\n",voltaje,corriente,temperatura);
+        sprintf(content,"%s\n%s",cadena,pagina);
         printf("%s\n", content);
 	bind_addr.sin_family = AF_INET;
 	bind_addr.sin_addr.s_addr = htonl(INADDR_ANY);
