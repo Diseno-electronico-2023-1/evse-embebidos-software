@@ -1,0 +1,439 @@
+HTTP/1.0 200 OK
+Content-Type: text/html; charset=utf-8
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<script>
+var autonomia="410";
+<html lang="es">
+<head>
+  <script>
+  var autonomia="100";
+  </script>
+  <link rel="icon" type="image/png" href="Logo.PNG">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prueba1111</title>
+  <style>
+    body {
+        background-image: url('Fondo.JFIF');
+        background-size: 80%;
+        background-position: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+    .header{
+        background-size: 50% auto;
+        background-repeat: no-repeat;
+        position: relative;
+        top: 10px;
+        left: 100px;
+       
+        width: 200px;
+        height: 80px;
+        text-align: center;
+        padding: 50px;
+        color: darkgreen;
+    }
+    .header h1 {
+        color: #000044;
+        font-size: 50px;
+        font-family: ui-serif;
+        margin: 0;
+        padding:0 200px;;
+    }
+    .container {
+        background-position: center;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .container1 {
+        background-image: white;
+        background-size: cover;
+        background-position: center;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .overlay {
+        background-color: rgba(255, 255, 255, 0.7);
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 400px;
+    }
+    .overlay h2 {
+        font-size: 12px;
+    }
+
+    .container3 {
+        background-color: rgba(255, 255, 255, 0.8);
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        display: flex;
+        grid-gap: 20px;
+        max-width: 900px;
+        font-size: large;
+    }
+
+    .circle {
+        width: 220px;
+        height: 220px;
+        border: 2px solid black;
+        border-radius: 50%;
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .circle-text {
+        margin-top: 20px;
+    }
+
+    .battery-container {
+        position: relative;
+        width: 200px;
+        height: 400px;
+        background-color: #000;
+        border: 2px solid #00ff00;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba(0, 255, 0, 0.6);
+    }
+
+    .battery-level {
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        transform-origin: bottom;
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        animation-name: chargeAnimation;
+        background-image: linear-gradient(to top, #00ff00, #000);
+    }
+
+    @keyframes chargeAnimation {
+      0% {
+        height: 0%;
+      }
+      100% {
+        height: var(--battery-level);
+      }
+    }
+
+    .battery-level::before {
+        content: '';
+        position: absolute;
+        top: -20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 10px;
+        height: 20px;
+        background-color: #00ff00;
+        border-radius: 50%;
+        box-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease-in-out;
+        animation-name: pulseAnimation;
+    }
+
+    @keyframes pulseAnimation {
+      0% {
+        transform: translateX(-50%) scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: translateX(-50%) scale(1.2);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateX(-50%) scale(1);
+        opacity: 1;
+      }
+    }
+
+    .battery-text {
+        color: #fff;
+        font-size: 24px;
+        text-align: center;
+        margin-top: 10px;
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    #Boton {
+
+        position: absolute;
+        top: 580px;
+        left: 45%;
+
+         
+        width: 200px;
+        height: 50px;
+
+             
+        border-radius: 10px;
+
+             
+        background-color: #424242;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    #Boton3 {
+
+        position: absolute;
+        top: 580px;
+        left: 80%;
+
+         
+        width: 200px;
+        height: 50px;
+
+             
+        border-radius: 10px;
+
+             
+        background-color: #FFFFF;
+        color: black;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+
+    form input[type="text"],
+    form select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+    }
+        
+   
+    form input[type="file"]::-webkit-file-upload-button {
+        background-color: #444;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px; 
+    }
+        
+    form input[type="file"]::-webkit-file-upload-button:hover {
+        background-color: #555;
+    }
+    
+    form input[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        background-color: #333;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 14px; 
+    }
+        
+    form input[type="submit"]:hover {
+        background-color: #555;
+    }
+
+  </style>
+</head>
+<body> 
+<div id="inicio">
+  <div class="header">
+      <h1> UN Cargador</h1>
+  </div>
+</div>
+
+  <button id="Boton" onclick="redireccionar1()">Crear perfil nuevo</button>
+  <script>
+        //Cambio página de cración de perfil 
+    function redireccionar1() {
+      var contenidoDiv = document.getElementById("inicio");
+      contenidoDiv.innerHTML = "";
+
+      var nuevoContenido = document.createElement("div");
+      //-----------------------------------------------------------------------------------
+      nuevoContenido.innerHTML ="<body>"+
+      "<div id="+'"crear"'+">"  +
+  "<div class="+'"container"'+">"+
+        "<div class="+'"overlay"'+">"+
+            "<h1>Bienvenido/a</h1"+">"+
+            "<form"+">"+
+                "<input id="+'"nombre5"'+" type="+'"text"'+" placeholder="+'"Nombre"'+">"+
+                "<select name="+'"vehiculo"'+">"+
+                    "<option value="+'""'+"Selecciona un vehículo</option"+">"+
+                    "<option value="+'"Tesla Model S"'+">Tesla Model S</option"+">"+
+                    "<option value="+'"Tesla Model 3"'+">Tesla Model 3</option"+">"+
+                    "<option value="+'"Tesla Model X"'+">Tesla Model X</option"+">"+
+                    "<option value="+'"Tesla Model Y"'+">Tesla Model Y</option"+">"+
+                    "<option value="+'"Nissan LEAF"'+">Nissan LEAF</option"+">"+
+                    "<option value="+'"Chevrolet Bolt EV"'+">Chevrolet Bolt EV</option"+">"+
+                    "<option value="+'"BMW i3"'+">BMW i3</option"+">"+
+                    "<option value="+'"Hyundai Kona Electric"'+">Hyundai Kona Electric</option"+">"+
+                    "<option value="+'"Kia Soul EV"'+">Kia Soul EV</option"+">"+
+                    "<option value="+'"Audi e-tron"'+">Audi e-tron</option"+">"+
+                    "<option value="+'"Jaguar I-Pace"'+">Jaguar I-Pace</option"+">"+
+                    "<option value="+'"Volkswagen ID.4"'+">Volkswagen ID.4</option"+">"+
+                    "<option value="+'"Ford Mustang Mach-E"'+">Ford Mustang Mach-E"+">"+
+                    "<option value="+'"Polestar 2"'+">Polestar 2"+">"+
+                    "<option value="+'"Rivian R1T"'+">Rivian R1T</option"+">"+
+                    "<option value="+'"Rivian R1S"'+">Rivian R1S</option"+">"+
+                    "<option value="+'"Porsche Taycan"'+">Porsche Taycan</option"+">"+
+                    "<option value="+'"Mini Cooper SE"'+">Mini Cooper SE</option"+">"+
+                    "<option value="+'"Honda Clarity Electric"'+">Honda Clarity Electric</option"+">"+
+                    "<option value="+'"Fiat 500e"'+">Fiat 500e</option"+">"+
+                    "<option value="+'"Smart EQ For Two"'+">Smart EQ For Two</option"+">"+
+                    "<option value="+'"Mitsubishi i-MiEV"'+">Mitsubishi i-MiEV</option"+">"+
+                    "<option value="+'"Mercedes-Benz EQC"'+">Mercedes-Benz EQC</option"+">"+
+                    "<option value="+'"Volvo XC40 Recharge"'+">Volvo XC40 Recharge</option"+">"+
+                    "<option value="+'"Lucid Air"'+">Lucid Air</option"+">"+
+                    "<option value="+'"Ford F-150 Lightning"'+">Ford F-150 Lightning</option"+">"+
+                    "<option value="+'"GMC Hummer EV"'+">GMC Hummer EV</option"+">"+
+                    "<option value="+'"Audi e-tron GT"'+">Audi e-tron GT</option"+">"+
+                    "<option value="+'"Chevrolet Spark EV"'+">Chevrolet Spark EV</option"+">"+
+                    "<option value="+'"Kia Niro EV"'+">Kia Niro EV</option"+">"+
+                    "<option value="+'"BMW i4"'+">BMW i4</option"+">"+
+                    "<option value="+'"Nissan Ariya"'+">Nissan Ariya</option"+">"+
+                    "<option value="+'"Lexus UX 300e"'+">Lexus UX 300e</option"+">"+
+                    "<option value="+'"Byton M-Byte"'+">Byton M-Byte</option"+">"+
+                    "<option value="+'"Faraday Future FF 91"'+">Faraday Future FF 91</option"+">"+
+                    "<option value="+'"Hyundai Ioniq Electric"'+">Hyundai Ioniq Electric</option"+">"+
+                    "<option value="+'"Polestar 1"'+">Polestar 1</option"+">"+
+                    "<option value="+'"Porsche Mission E"'+">Porsche Mission E</option"+">"+
+                    "<option value="+'"Renault ZOE"'+">Renault ZOE</option"+">"+
+                    "<option value="+'"Rimac C_Two"'+">Rimac C_Two</option"+">"+
+                    "<option value="+'"Bollinger B1"'+">Bollinger B1</option"+">"+
+                    "<option value="+'"Fisker Ocean"'+">Fisker Ocean</option"+">"+
+                    "<option value="+'"Lucid Motors Gravity"'+">Lucid Motors Gravity</option"+">"+
+                    "<option value="+'"Lordstown Endurance"'+">Lordstown Endurance</option"+">"+
+                    "<option value="+'"Alpha Ace"'+">Alpha Ace</option"+">"+
+                    "<option value="+'"Canoo"'+">Canoo</option"+">"+
+                    "<option value="+'"Karma Revero GT"'+">Karma Revero GT</option"+">"+
+                    "<option value="+'"NIO ES8"'+">NIO ES8</option"+">"+
+                    "<option value="+'"Xpeng P7"'+">Xpeng P7</option"+">"+
+                    "<option value="+'"Aiways U5"'+">Aiways U5</option"+">"+
+                "</select"+">"+
+                "<h2> Inserte foto de perfil </h2"+">"+
+                "<input id="+'"fotop"'+"type="+'"file"'+ "accept="+'".jpg, .jpeg"'+">"+
+                "<h1> </h1"+">"+
+                "<input type="+'"submit"'+" value="+'"Enviar"'+"onclick="+'"redireccionar2()"'+">"+
+            "</form"+">"+
+        "</div>"+
+      "</div>"+
+  "</div>"+
+  "</body"+">";
+      //-----------------------------------------------------------------------------------
+      
+      contenidoDiv.appendChild(nuevoContenido);
+
+      var boton = document.getElementsByTagName("button")[0];
+      boton.style.display = "none";
+    }
+        //Cambio página ingreso de porcentaje
+       function redireccionar2() {
+  var nombre = document.getElementById("nombre5").value;
+  var foto = document.getElementById("fotop").files;
+
+  var contenidoDiv2 = document.getElementById("crear");
+  contenidoDiv2.innerHTML = "";
+
+  var nuevoContenido2 = document.createElement("div");
+
+  //-----------------------------------------------------------------------------------
+  nuevoContenido2.innerHTML =
+    "<body>" +
+    "<div id='porcentaje'>" +
+    "<div class='container1'>" +
+    "<div class='overlay'>" +
+    (foto.length > 0
+      ? "<div class='circle' style='background-image: url(" + URL.createObjectURL(foto[0]) + ");'></div>"
+      : "<div class='circle'></div>") +
+    "<h1>" + nombre + "</h1>" +
+    "<form>" +
+    "<input id='porc' type='text' placeholder='Ingrese % actual de carga'>" +
+    "<h1 id='nombre1'></h1>" +
+    "<input type='submit' value='Continuar' onclick='redireccionar3()'>" +
+    "</form>" +
+    "</div>" +
+    "</div>" +
+    "</div>" +
+    "</body>";
+
+  contenidoDiv2.appendChild(nuevoContenido2);
+}
+
+        //Cambio de página datos importantes 
+    function redireccionar3() {
+      var contenido3Div = document.getElementById("porcentaje");
+      contenido3Div.innerHTML = "";
+
+      var nuevoContenido3 = document.createElement("div");
+ 
+      //-----------------------------------------------------------------------------------
+      nuevoContenido3.innerHTML ="<body>"+
+  "<div id="+'"datos"'+">"+
+    "<div class="+'"container3"'+">"+
+      "<div>"+
+        "<div class="+'"circle"'+ "style="+'"background-color:grey;"'+">"+
+          "<p class="+'"circle-text"'+">Tiempo aproximado de carga restante:</p>"+
+        "</div>"+
+        "<div>"+
+          "<p>Hora de inicio:</p>"+
+          "<p>Costo de carga:</p>"+
+        "</div>"+
+      "</div>"+
+
+      "<div>"+
+        "<div class="+'"circle"'+ "style="+'"background-color:grey;"'+">"+
+          "<p class="+'"circle-text"'+">Potencia actual:</p>"+
+        "</div>"+
+        "<div>"+
+          "<p>Energía entregada:</p>"+
+          "<p>Tensión:</p>"+
+          "<p>Corriente:</p>"+
+        "</div>"+
+      "</div>"+
+
+      "<div>"+
+        "<div class="+'"circle"'+ "style="+'"background-color:grey;"'+">"+
+          "<p class="+'"circle-text"'+">Autonomía:</p>"+
+        "</div>"+
+        "<div>"+
+          "<p>Autonomía máxima:" +autonomia+"</p>"+
+        "</div>"+
+      "</div>"+
+    "</div>"+
+ "</div>"+
+    "<button id="+'"Boton3"'+ "onclick="+'"redireccionar4()"'+">Finalizar</button>"+
+ "</body>";
+      //-----------------------------------------------------------------------------------
+      contenido3Div.appendChild(nuevoContenido3);
+    }
+
+
+  </script>
+</body>
+</html>
+

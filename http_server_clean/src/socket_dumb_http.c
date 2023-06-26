@@ -1,29 +1,20 @@
-/*
- * Copyright (c) 2017 Linaro Limited
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
 
-#if !defined(__ZEPHYR__) || defined(CONFIG_POSIX_API)
-
-#include <netinet/in.h>
-#include <sys/socket.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-
-#else
+// #if !defined(__ZEPHYR__) || defined(CONFIG_POSIX_API)
+// #include <netinet/in.h>
+// #include <sys/socket.h>
+// #include <arpa/inet.h>
+// #include <unistd.h>
+// #else
 
 #include <zephyr/net/socket.h>
-#include <zephyr/kernel.h>
+// #include <zephyr/kernel.h>
+// #include <zephyr/net/net_pkt.h>
 
-#include <zephyr/net/net_pkt.h>
-
-#endif
+// #endif
 
 #define BIND_PORT 8080
 
@@ -34,33 +25,38 @@
 #define CHECK(r) { if (r == -1) { printf("Error: " #r "\n"); exit(1); } }
 
 static char pagina[18500] = {
-#if USE_BIG_PAYLOAD
+// #if USE_BIG_PAYLOAD
     #include "response_big.html.bin.inc"
-#else
-    #include "response_small.html.bin.inc"
-#endif
+// #else
+    // #include "response_small.html.bin.inc"
+// #endif
 };
+
 int voltaje = 1500;
 int corriente = 1100;
 int temperatura = 410;
 char cadena[1500];
 static char content[20000];
-void main(void)
-{
+
+void main(void){
+
 	int serv;
 	struct sockaddr_in bind_addr;
 	static int counter;
 	int ret;
+
 	serv = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	CHECK(serv);
-    	sprintf(cadena,"HTTP/1.0 200 OK\nContent-Type: text/html; charset=utf-8\n\n<!DOCTYPE html>\n<html lang=\"es\">\n<head>\n<script>\nvar tension = %d;\nvar corriente = %d;\nvar temperatura = %d;\n",voltaje,corriente,temperatura);
-        sprintf(content,"%s\n%s",cadena,pagina);
-        printf("%s\n", content);
+
+	sprintf(cadena,"HTTP/1.0 200 OK\nContent-Type: text/html; charset=utf-8\n\n<!DOCTYPE html>\n<html lang=\"es\">\n<head>\n<script>\nvar tension = %d;\nvar corriente = %d;\nvar temperatura = %d;\n",voltaje,corriente,temperatura);
+	sprintf(content,"%s\n%s",cadena,pagina);
+    printf("%s\n", content);
+	
 	bind_addr.sin_family = AF_INET;
 	bind_addr.sin_addr.s_addr = htonl(INADDR_ANY);
 	bind_addr.sin_port = htons(BIND_PORT);
+	
 	CHECK(bind(serv, (struct sockaddr *)&bind_addr, sizeof(bind_addr)));
-
 	CHECK(listen(serv, 5));
 
 	printf("Single-threaded dumb HTTP server waits for a connection on "
@@ -74,15 +70,14 @@ void main(void)
 		const char *data;
 		size_t len;
 
-		int client = accept(serv, (struct sockaddr *)&client_addr,
-				    &client_addr_len);
+		int client = accept(serv, (struct sockaddr *)&client_addr, &client_addr_len);
+		
 		if (client < 0) {
 			printf("Error in accept: %d - continuing\n", errno);
 			continue;
 		}
 
-		inet_ntop(client_addr.sin_family, &client_addr.sin_addr,
-			  addr_str, sizeof(addr_str));
+		inet_ntop(client_addr.sin_family, &client_addr.sin_addr, addr_str, sizeof(addr_str));
 		printf("Connection #%d from %s\n", counter++, addr_str);
 
 		/* Discard HTTP request (or otherwise client will get
