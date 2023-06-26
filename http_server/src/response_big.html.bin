@@ -1,11 +1,9 @@
   </script>
-  <link rel="icon" type="image/png" href="Logo.PNG">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prueba</title>
+  <title>UN Cargador</title>
   <style>
     body {
-        background-image: url('Fondo.JFIF');
         background-size: 80%;
         background-position: center;
         display: flex;
@@ -43,7 +41,7 @@
         top: 10px;
         left: 100px;
        
-        width: 200px;
+        width: 1000px;
         height: 80px;
         text-align: center;
         padding: 50px;
@@ -302,7 +300,7 @@
           <div class="container">
             <div class="overlay">
               <h1>Bienvenido/a</h1>
-              <form>
+              <form action="/enviar_variables" method="POST">
                 <input id="nombre5" type="text" placeholder="Nombre">
                 <select id="vehiculo">
                   <option value="">Selecciona un vehículo</option>
@@ -617,7 +615,6 @@
 
     // Ejemplo: establece el nivel de carga al %
     setBatteryLevel(Totalr);
-
 
   </script>
 </body>
