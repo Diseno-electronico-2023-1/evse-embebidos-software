@@ -27,7 +27,7 @@ app_zephyr_pantalla:
 	west build -b litex_vexriscv ${WORK_DIR}pantalla/ -DSHIELD=ssd1306_128x64 -DDTC_OVERLAY_FILE=${WORK_DIR}overlay.dts
 	
 app_zephyr_server:
-	west build -b litex_vexriscv ${WORK_DIR}http_server/ -DDTC_OVERLAY_FILE=${WORK_DIR}overlay.dts
+	west build -b litex_vexriscv ${WORK_DIR}http_server_clean/ -DDTC_OVERLAY_FILE=${WORK_DIR}overlay.dts
 
 app_zephyr_eth: 
 	west build -b litex_vexriscv ${ZEPHYR_DIR}zephyr/samples/net/eth_native_posix -DDTC_OVERLAY_FILE=${WORK_DIR}overlay.dts

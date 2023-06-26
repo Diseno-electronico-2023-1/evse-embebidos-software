@@ -3,27 +3,12 @@
 #include <string.h>
 #include <errno.h>
 
-// #if !defined(__ZEPHYR__) || defined(CONFIG_POSIX_API)
-// #include <netinet/in.h>
-// #include <sys/socket.h>
-// #include <arpa/inet.h>
-// #include <unistd.h>
-// #else
-
 #include <zephyr/net/socket.h>
-// #include <zephyr/kernel.h>
-// #include <zephyr/net/net_pkt.h>
-
-// #endif
+#include <zephyr/kernel.h>
+#include <zephyr/net/net_pkt.h>
 
 #define BIND_PORT 8080
-
-// #ifndef USE_BIG_PAYLOAD
-// #define USE_BIG_PAYLOAD 1
-// #endif
-
 #define CHECK(r) { if (r == -1) { printf("Error: " #r "\n"); exit(1); } }
-
 
 static char pagina[20000] = {
 	#include "response_big.html.bin.inc"    
@@ -35,9 +20,8 @@ int voltaje = 120;
 int corriente = 5;
 int temperatura = 65;
 
-
 void server(void){
-
+	
 	int serv;
 	struct sockaddr_in bind_addr;
 	static int counter;
@@ -133,15 +117,5 @@ close_client:
 			printf("Got error %d while closing the "
 			       "socket\n", errno);
 		}
-
-// #if defined(__ZEPHYR__) && defined(CONFIG_NET_BUF_POOL_USAGE)
-// 		struct k_mem_slab *rx, *tx;
-// 		struct net_buf_pool *rx_data, *tx_data;
-
-// 		net_pkt_get_info(&rx, &tx, &rx_data, &tx_data);
-// 		printf("rx buf: %d, tx buf: %d\n",
-// 		       atomic_get(&rx_data->avail_count), atomic_get(&tx_data->avail_count));
-// #endif
-
 	}
 }

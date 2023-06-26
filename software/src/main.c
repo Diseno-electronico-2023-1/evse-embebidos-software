@@ -19,6 +19,8 @@
 #include "screens/profileScreen.c"
 #include "screens/statusScreen.c"
 
+#include "server/server.c"
+
 // Botones
     const int btn_back = 1;
     const int btn_up   = 2;
@@ -43,7 +45,7 @@ int moveSelector(int selector, int btn_state, int maxSelector){
 }
 
 
-void main(void){
+/* void main(void){
     char names[3][16];
     strncpy(names[0], "Hugo", sizeof(names[0]) - 1);
     strncpy(names[1], "Paco", sizeof(names[1]) - 1);
@@ -137,30 +139,16 @@ void main(void){
     
     printk("Fin \n");
 
-}
-
-
-/* void main(void){
-    bool work = 1;
-    int sel = 1;
-
-    char names[3][16];
-    strncpy(names[0], "Hugo", sizeof(names[0]) - 1);
-    strncpy(names[1], "Paco", sizeof(names[1]) - 1);
-    strncpy(names[2], "Luis", sizeof(names[2]) - 1);
-
-    int percent = 0;
-
-    while (work){
-        profile_screen(sel, names);
-        lv_task_handler();
-        k_sleep(K_MSEC(500));
-        sel++;
-        if (sel == 4){
-            sel = 1;
-        }
-    }
 } */
+
+
+void main(void){
+    
+    welcome_screen();
+    lv_task_handler();
+    server();
+        
+}
 
 //k_sleep(K_MSEC(1000));
 //perfil();

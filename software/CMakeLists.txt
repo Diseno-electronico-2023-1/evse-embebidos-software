@@ -8,3 +8,9 @@ project(lvgl)
 FILE(GLOB app_sources src/*.c)
 
 target_sources(app PRIVATE ${app_sources})
+
+set(gen_dir ${ZEPHYR_BINARY_DIR}/include/generated/)
+
+generate_inc_file_for_target(app src/server/response_big.html.bin   ${gen_dir}/response_big.html.bin.inc)
+
+include(${ZEPHYR_BASE}/samples/net/common/common.cmake)
