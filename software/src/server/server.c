@@ -4,8 +4,8 @@
 #include <errno.h>
 
 #include <zephyr/net/socket.h>
-#include <zephyr/kernel.h>
-#include <zephyr/net/net_pkt.h>
+// #include <zephyr/kernel.h>
+// #include <zephyr/net/net_pkt.h>
 
 #define BIND_PORT 8080
 #define CHECK(r) { if (r == -1) { printf("Error: " #r "\n"); exit(1); } }
@@ -21,7 +21,7 @@ int corriente = 5;
 int temperatura = 65;
 
 void server(void){
-	
+
 	int serv;
 	struct sockaddr_in bind_addr;
 	static int counter;
@@ -32,7 +32,7 @@ void server(void){
 
 	sprintf(cadena,"HTTP/1.0 200 OK\nContent-Type: text/html; charset=utf-8\n\n<!DOCTYPE html>\n<html lang=\"es\">\n<head>\n<script>\nvar tension = %d;\nvar corriente = %d;\nvar temperatura = %d;\n",voltaje,corriente,temperatura);
 	sprintf(content,"%s\n%s",cadena,pagina);
-    printf("%s\n", content);
+    //printf("%s\n", content);
 	
 	bind_addr.sin_family = AF_INET;
 	bind_addr.sin_addr.s_addr = htonl(INADDR_ANY);

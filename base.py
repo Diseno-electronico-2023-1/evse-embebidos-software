@@ -20,6 +20,7 @@ from litespi.opcodes import SpiNorFlashOpCodes as Codes
 from liteeth.phy.rmii import LiteEthPHYRMII
 from litex.soc.cores.bitbang import I2CMaster
 from litex.soc.cores.spi import SPIMaster
+from litex.soc.cores.uart import UARTPHY, UART
 from ios import Led
 
 # IOs ------------------------------------------------------------------------
@@ -77,6 +78,13 @@ _gpio =   [
     ("user_gpio", 2, Pins("L20"), IOStandard("LVCMOS33")),
     ("user_gpio", 3, Pins("M18"), IOStandard("LVCMOS33")),
 ]
+
+_uartExtra = [
+    ("uart2", 0,
+            Subsignal("tx", Pins("B3")),
+            Subsignal("rx", Pins("E19")) 
+        )
+]
         
 # BaseSoC -----------------------------------------------------------------------------------------
 class _CRG(Module):
@@ -116,6 +124,7 @@ class BaseSoC(SoCCore):
         platform.add_extension(_i2c)
         platform.add_extension(_spi)
         platform.add_extension(_gpio)
+        platform.add_extension(_uartExtra)
         
         # SoC with CPU
         SoCCore.__init__(
@@ -168,6 +177,12 @@ class BaseSoC(SoCCore):
         self.user_gpio = GPIOTristate(
             pads     = [platform.request("user_gpio",i) for i in range(4)],
             with_irq = self.irq.enabled)
+        
+        # UART Extra
+        self.submodules.uart_2_phy = UARTPHY(platform.request("uart2"), sys_clk_freq, 9600)
+        self.add_csr('uart_2_phy')
+        self.submodules.uart_2 = UART(phy=self.uart_2_phy)
+        self.add_csr('uart_2')
         
 # Build -----------------------------------------------------------------------
 soc = BaseSoC()
