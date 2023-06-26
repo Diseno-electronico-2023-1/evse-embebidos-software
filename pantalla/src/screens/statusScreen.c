@@ -107,7 +107,7 @@ void batery(int percent){
 }
 
 
-void status_screen(int sel, char nameProfile[16]){
+void status_screen(int sel, char nameProfile[16], int percent){
 
     lv_obj_t * panel;
     panel = lv_obj_create(lv_scr_act());
@@ -154,7 +154,7 @@ void status_screen(int sel, char nameProfile[16]){
     lv_line_set_points(separator1, pos_separtor1, 2);
     lv_obj_add_style(separator1, &style_separators, 0);
 
-    batery(26);
+    batery(percent);
 
     pointerStatusScreen(sel);
 }

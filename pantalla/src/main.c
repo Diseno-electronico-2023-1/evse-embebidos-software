@@ -42,11 +42,17 @@ int moveSelector(int selector, int btn_state, int maxSelector){
     return selector;
 }
 
+
 void main(void){
+    char names[3][16];
+    strncpy(names[0], "Hugo", sizeof(names[0]) - 1);
+    strncpy(names[1], "Paco", sizeof(names[1]) - 1);
+    strncpy(names[2], "Luis", sizeof(names[2]) - 1);
+
+    int percent = 0;
+
 
     printk("Inicio \n");
-    
-    user_gpio_oe_write(0);
 
     bool work = 1;
     int state;
@@ -59,13 +65,7 @@ void main(void){
     const int selprofile = '2';
     const int status = '3';
     const int end = '4';
-    
-
-    char names[3][16];
-    strncpy(names[0], "Hugo", sizeof(names[0]) - 1);
-    strncpy(names[1], "Paco", sizeof(names[1]) - 1);
-    strncpy(names[2], "Luis", sizeof(names[2]) - 1);
-
+        
     state = welcome;
     welcome_screen();
     lv_task_handler();
@@ -95,7 +95,7 @@ void main(void){
                     state = status;
                     profile_sel = selector - 1;
                     selector = 1;
-                    status_screen(selector, names[profile_sel]);
+                    status_screen(selector, names[profile_sel], percent);
                     lv_task_handler();
                 } else{
                     selector = moveSelector(selector, btn_state, 3);
@@ -143,13 +143,22 @@ void main(void){
 /* void main(void){
     bool work = 1;
     int sel = 1;
-    int btn_state = 0;
+
+    char names[3][16];
+    strncpy(names[0], "Hugo", sizeof(names[0]) - 1);
+    strncpy(names[1], "Paco", sizeof(names[1]) - 1);
+    strncpy(names[2], "Luis", sizeof(names[2]) - 1);
+
+    int percent = 0;
 
     while (work){
-        btn_state = user_gpio_in_read();
-        printk("Sel: %x  Btn: %x \n", sel, btn_state);
-        sel = moveSelector(sel, btn_state, 1, 3);
-        k_sleep(K_MSEC(100));
+        profile_screen(sel, names);
+        lv_task_handler();
+        k_sleep(K_MSEC(500));
+        sel++;
+        if (sel == 4){
+            sel = 1;
+        }
     }
 } */
 
