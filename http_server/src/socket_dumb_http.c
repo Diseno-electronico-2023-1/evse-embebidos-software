@@ -1,9 +1,3 @@
-/*
- * Copyright (c) 2017 Linaro Limited
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -41,13 +35,14 @@ static char pagina[18500] = {
     #include "response_small.html.bin.inc"
 #endif
 };
+
 int voltaje = 1500;
 int corriente = 1100;
 int temperatura = 410;
 char cadena[1500];
 static char content[20000];
-void main(void)
-{
+
+void main(void){
 	int serv;
 	struct sockaddr_in bind_addr;
 	static int counter;
