@@ -21,6 +21,9 @@ overlay:
 	${LITEX_DIR}/litex/litex/tools/litex_json2dts_zephyr.py --dts overlay.dts --config overlay.config csr.json
 	
 app_zephyr:
+	west build -b litex_vexriscv ${WORK_DIR}software/ -DSHIELD=ssd1306_128x64 -DDTC_OVERLAY_FILE=${WORK_DIR}overlay.dts
+
+app_zephyr_pantalla:
 	west build -b litex_vexriscv ${WORK_DIR}pantalla/ -DSHIELD=ssd1306_128x64 -DDTC_OVERLAY_FILE=${WORK_DIR}overlay.dts
 	
 app_zephyr_server:
