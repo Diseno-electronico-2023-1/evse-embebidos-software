@@ -26,6 +26,7 @@
 #endif
 
 #define BIND_PORT 8080
+#define BUFFER_SIZE 1024
 
 #ifndef USE_BIG_PAYLOAD
 #define USE_BIG_PAYLOAD 1
@@ -51,6 +52,8 @@ void main(void)
 	struct sockaddr_in bind_addr;
 	static int counter;
 	int ret;
+	char buffer[BUFFER_SIZE];
+        ssize_t bytes_read;
 	serv = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	CHECK(serv);
     	sprintf(cadena,"HTTP/1.0 200 OK\nContent-Type: text/html; charset=utf-8\n\n<!DOCTYPE html>\n<html lang=\"es\">\n<head>\n<script>\nvar tension = %d;\nvar corriente = %d;\nvar temperatura = %d;\n",voltaje,corriente,temperatura);
@@ -62,6 +65,36 @@ void main(void)
 	CHECK(bind(serv, (struct sockaddr *)&bind_addr, sizeof(bind_addr)));
 
 	CHECK(listen(serv, 5));
+
+    // Leer la solicitud del cliente
+    memset(buffer, 0, BUFFER_SIZE);
+    bytes_read = read(client_socket, buffer, BUFFER_SIZE - 1);
+    if (bytes_read < 0)
+    {
+        perror("Error de lectura");
+        return;
+    }
+
+    // Obtener los valores de las variables "nombre5" y "vehiculo"
+    char *nombre_start = strstr(buffer, "nombre5=");
+    char *vehiculo_start = strstr(buffer, "vehiculo=");
+    if (nombre_start == NULL || vehiculo_start == NULL)
+    {
+        const char *error_response = "Error de lectura";
+        write(client_socket, error_response, strlen(error_response));
+        return;
+    }
+    nombre_start += strlen("nombre5=");
+    vehiculo_start += strlen("vehiculo=");
+
+    // Procesar las variables recibidas (nombre y vehiculo)
+    // ...
+
+    // Imprimir las variables recibidas
+    printf("Variables recibidas:\n");
+    printf("Nombre: %s\n", nombre_start);
+    printf("Vehiculo: %s\n", vehiculo_start);
+
 
 	printf("Single-threaded dumb HTTP server waits for a connection on "
 	       "port %d...\n", BIND_PORT);
